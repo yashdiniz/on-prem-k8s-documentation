@@ -27,7 +27,7 @@ sudo usermod -aG docker <user>
 Installing k3s is as simple as running a single command, shown below:
 
 ```bash
-curl -sfL https://get.k3s.io | sh -    # and, that's it 
+curl -sfL https://get.k3s.io | sh -s - --docker    # and, that's it 
 ```
 
 After the installation, k3s will start as a systemd service which you can control using the `systemctl` commands.
@@ -41,13 +41,27 @@ bash /usr/local/bin/k3s-uninstall.sh
 An important thing to remember is that the k3s installation script also installs a custom build of the `kubectl` command. This version of `kubectl` only allows you to connect to the k3s cluster. You can check the version of the kubectl installed by running the following:
 
 ``` bash
-$ k3s kubectl version
+k3s kubectl version
 ```
 
+To confirm that the cluster is available, you can run the command:
 
+```bash
+sudo k3s kubectl get pods --all-namespaces
+```
+
+To confirm that the clusters are running in docker containers, you can run the command:
+
+```bash
+sudo docker ps
+```
+
+## Installing aws cli
+
+TODO
 
 ## References
 
 1. [k3s normal install](https://k3s.io/)
 1. [k3s docker install - rancher labs](https://rancher.com/docs/k3s/latest/en/advanced/)
-
+1. [AWS CLI installation guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
