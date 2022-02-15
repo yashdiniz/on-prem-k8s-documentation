@@ -58,10 +58,38 @@ sudo docker ps
 
 ## Installing aws cli
 
-TODO
+Refer to [this documentation from AWS](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) for installing AWS cli on Linux.
+
+## Installing Helm
+
+[Helm](https://helm.sh) is the perfect tool for creating kubernetes packages. A kubernetes package is an entire collection of deployment configurations, allowing us to install and manage kubernetes deployments by running simple commands.
+
+Refer to [this documentation from Helm](https://helm.sh/docs/intro/install/#from-script) for installing Helm on Linux.
+
+## Create an AWS IAM user
+
+Ask someone who has IAM access to create an IAM user. Currently, a user named `on.prem.server.spintly` with `AmazonEC2ContainerRegistryReadOnly` access has already been created for the Spintly on-premises servers. It is recommended to **create a different user for other on-premises servers**.
+
+## Start with Helm
+
+> NOTE: There will already be an existing helm package created by us, which can be asked for. This part of the documentation is a step-by-step if you plan on creating a new helm chart from scratch.
+
+Create a helm chart using the following command:
+
+```bash
+helm create k8s-spintly # you can choose the name of the helm chart.
+```
+
+> The rest of the documentation can be found on [the Helm Getting Started guide](https://helm.sh/docs/intro/using_helm/).
+> Also check the [Helm How to guide](https://helm.sh/docs/howto)
+
+https://helm.sh/docs/howto/chart_releaser_action/
+https://helm.sh/docs/chart_template_guide/getting_started/
+https://helm.sh/docs/topics/charts/
 
 ## References
 
 1. [k3s normal install](https://k3s.io/)
 1. [k3s docker install - rancher labs](https://rancher.com/docs/k3s/latest/en/advanced/)
 1. [AWS CLI installation guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+1. [Install Helm](https://helm.sh/docs/intro/install/)
