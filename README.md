@@ -70,6 +70,27 @@ Refer to [this documentation from Helm](https://helm.sh/docs/intro/install/#from
 
 Ask someone who has IAM access to create an IAM user. Currently, a user named `on.prem.server.spintly` with `AmazonEC2ContainerRegistryReadOnly` access has already been created for the Spintly on-premises servers. It is recommended to **create a different user for other on-premises servers**.
 
+Also remember to use `aws configure` to login to that user on the system.
+
+## Creating the required AWS ECR repository
+
+> NOTE: TODO
+
+## Login to AWS ECR for pulling images
+
+> NOTE: TODO
+> Assumes that the image has already been pushed by the developers on an ECR repository already created.
+
+Run the following command to login to AWS ECR. AWS ECR is a container registry which contains all the images pushed by the developers.
+
+```bash
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 399029391937.dkr.ecr.ap-south-1.amazonaws.com
+```
+
+You 
+
+## 
+
 ## Start with Helm
 
 > NOTE: There will already be an existing helm package created by us, which can be asked for. This part of the documentation is a step-by-step if you plan on creating a new helm chart from scratch.
@@ -86,6 +107,8 @@ helm create k8s-spintly # you can choose the name of the helm chart.
 https://helm.sh/docs/howto/chart_releaser_action/
 https://helm.sh/docs/chart_template_guide/getting_started/
 https://helm.sh/docs/topics/charts/
+
+## Working with Helm templates to create the Helm chart
 
 ## References
 
