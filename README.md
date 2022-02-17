@@ -116,3 +116,4 @@ https://helm.sh/docs/topics/charts/
 1. [k3s docker install - rancher labs](https://rancher.com/docs/k3s/latest/en/advanced/)
 1. [AWS CLI installation guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 1. [Install Helm](https://helm.sh/docs/intro/install/)
+1. [Using a private registry on k3s](https://bryanbende.com/development/2021/07/02/k3s-raspberry-pi-jenkins-registry-p1)
