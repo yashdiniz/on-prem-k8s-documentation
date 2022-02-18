@@ -87,9 +87,13 @@ Run the following command to login to AWS ECR. AWS ECR is a container registry w
 aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 399029391937.dkr.ecr.ap-south-1.amazonaws.com
 ```
 
-You 
+## Configuring k3s to use the private registry
 
-## 
+> NOTE: You need to also ensure that k3s has stored the credentials to access the registry, since k3s will make independent requests for self-healing purposes.
+> Check out this [GitHub issue here](https://github.com/k3s-io/k3s/issues/1427) about how k3s private registry with ECR is problematic because of required k3s restarts, and [a possible solution](https://github.com/k3s-io/k3s/issues/1427#issuecomment-781309205).
+
+
+
 
 ## Start with Helm
 
@@ -117,3 +121,4 @@ https://helm.sh/docs/topics/charts/
 1. [AWS CLI installation guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 1. [Install Helm](https://helm.sh/docs/intro/install/)
 1. [Using a private registry on k3s](https://bryanbende.com/development/2021/07/02/k3s-raspberry-pi-jenkins-registry-p1)
+1. [A Solution to AWS ECR Image Pull Secrets](https://github.com/k3s-io/k3s/issues/1427#issuecomment-781309205)
