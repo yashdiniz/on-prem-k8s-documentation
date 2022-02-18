@@ -94,7 +94,6 @@ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --p
 
 
 
-
 ## Start with Helm
 
 > NOTE: There will already be an existing helm package created by us, which can be asked for. This part of the documentation is a step-by-step if you plan on creating a new helm chart from scratch.
@@ -109,7 +108,9 @@ helm create k8s-spintly # you can choose the name of the helm chart.
 > Also check the [Helm How to guide](https://helm.sh/docs/howto)
 
 https://helm.sh/docs/howto/chart_releaser_action/
+
 https://helm.sh/docs/chart_template_guide/getting_started/
+
 https://helm.sh/docs/topics/charts/
 
 ## Working with Helm templates to create the Helm chart
