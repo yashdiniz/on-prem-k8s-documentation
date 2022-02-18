@@ -1,0 +1,431 @@
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ kubectl 
+Dockerfile          .env                ga                  .git/               go.mod              go.sum              k8s-deployment.yml  main.go             
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl apply -f k8s-deployment.yml 
+[sudo] password for spintly: 
+deployment.apps/ping-server unchanged
+service/ping-server unchanged
+horizontalpodautoscaler.autoscaling/ping-server unchanged
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s get pods
+No help topic for 'get'
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl pods
+Error: unknown command "pods" for "kubectl"
+
+Did you mean this?
+	logs
+
+Run 'kubectl --help' for usage.
+unknown command "pods" for "kubectl"
+
+Did you mean this?
+	logs
+
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-6b459d6cc5-2fm92   0/1     ImagePullBackOff   0          7d21h
+ping-server-7ffdcf6665-4stpq   0/1     ImagePullBackOff   0          7d21h
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+[sudo] password for spintly: 
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker build -t spintly/ping-server .
+Sending build context to Docker daemon   72.7kB
+Step 1/11 : FROM golang:alpine AS build-env
+ ---> e8fc0c5ad389
+Step 2/11 : WORKDIR /app
+ ---> Using cache
+ ---> 43a2469ce88c
+Step 3/11 : ADD . /app
+ ---> Using cache
+ ---> cb3ff28228a2
+Step 4/11 : RUN go get
+ ---> Using cache
+ ---> 626a401bd11d
+Step 5/11 : RUN go build -o goserver .
+ ---> Using cache
+ ---> b07c0d834126
+Step 6/11 : FROM alpine
+ ---> c059bfaa849c
+Step 7/11 : RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+ ---> Using cache
+ ---> 1c3e91ff09a9
+Step 8/11 : WORKDIR /app
+ ---> Using cache
+ ---> 3b25bd90c777
+Step 9/11 : COPY --from=build-env /app/goserver /app
+ ---> Using cache
+ ---> 9d15295e3b81
+Step 10/11 : EXPOSE 8080
+ ---> Using cache
+ ---> 469f7fe00689
+Step 11/11 : ENTRYPOINT ./goserver
+ ---> Using cache
+ ---> f23f1fd3d6dd
+Successfully built f23f1fd3d6dd
+Successfully tagged spintly/ping-server:latest
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker push
+"docker push" requires exactly 1 argument.
+See 'docker push --help'.
+
+Usage:  docker push [OPTIONS] NAME[:TAG]
+
+Push an image or a repository to a registry
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ vi
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker build -t spintly/ping-server .
+Sending build context to Docker daemon   72.7kB
+Step 1/11 : FROM golang:alpine AS build-env
+ ---> e8fc0c5ad389
+Step 2/11 : WORKDIR /app
+ ---> Using cache
+ ---> 43a2469ce88c
+Step 3/11 : ADD . /app
+ ---> b1096a287158
+Step 4/11 : RUN go get
+ ---> Running in 37124c33786a
+go: github.com/joho/godotenv@v1.4.0: Get "https://proxy.golang.org/github.com/joho/godotenv/@v/v1.4.0.mod": dial tcp: lookup proxy.golang.org on 8.8.8.8:53: read udp 172.17.0.2:47629->8.8.8.8:53: i/o timeout
+The command '/bin/sh -c go get' returned a non-zero code: 1
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl apply -f k8s-deployment.yml 
+[sudo] password for spintly: 
+deployment.apps/ping-server configured
+service/ping-server unchanged
+horizontalpodautoscaler.autoscaling/ping-server unchanged
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS              RESTARTS   AGE
+ping-server-7ffdcf6665-4stpq   0/1     ImagePullBackOff    0          7d22h
+ping-server-64849875b8-l65wt   0/1     ContainerCreating   0          8s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS              RESTARTS   AGE
+ping-server-7ffdcf6665-4stpq   0/1     ImagePullBackOff    0          7d22h
+ping-server-64849875b8-l65wt   0/1     ContainerCreating   0          12s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-7ffdcf6665-4stpq   0/1     ImagePullBackOff   0          7d22h
+ping-server-64849875b8-l65wt   0/1     ErrImagePull       0          17s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-7ffdcf6665-4stpq   0/1     ImagePullBackOff   0          7d22h
+ping-server-64849875b8-l65wt   0/1     ImagePullBackOff   0          21s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker ps
+CONTAINER ID   IMAGE                        COMMAND                  CREATED             STATUS             PORTS     NAMES
+b558c5a764a9   rancher/mirrored-pause:3.6   "/pause"                 8 seconds ago       Up 5 seconds                 k8s_POD_ping-server-64849875b8-l65wt_default_de958f66-a493-4f1b-89a9-2b3e592e9ed4_1
+a4e1f61d87db   746788bcc27e                 "entry"                  About an hour ago   Up About an hour             k8s_lb-port-443_svclb-traefik-vsc7l_kube-system_cd88d7c3-9510-4a8e-a13c-9d2d20ddaa09_8
+77679a8e9dd8   fb9b574e03c3                 "local-path-provisio…"   About an hour ago   Up About an hour             k8s_local-path-provisioner_local-path-provisioner-84bb864455-rpvgd_kube-system_987e513f-0064-4227-a462-353e7c3cc428_8
+e670111e3bb6   2cd4bc25ad14                 "/entrypoint.sh --gl…"   About an hour ago   Up About an hour             k8s_traefik_traefik-55fdc6d984-bhrfj_kube-system_35675c7a-dac8-4917-bee9-57b55f912e96_8
+aa54b2a73449   f73640fb5061                 "/metrics-server --c…"   About an hour ago   Up About an hour             k8s_metrics-server_metrics-server-ff9dbcb6c-ljzzh_kube-system_dd298f43-cbc8-45fa-a137-4466ca5d2ac9_8
+178b7c1959ca   746788bcc27e                 "entry"                  About an hour ago   Up About an hour             k8s_lb-port-80_svclb-traefik-vsc7l_kube-system_cd88d7c3-9510-4a8e-a13c-9d2d20ddaa09_8
+1b483044a205   a4ca41631cc7                 "/coredns -conf /etc…"   About an hour ago   Up About an hour             k8s_coredns_coredns-96cc4f57d-pnx6m_kube-system_ead49339-53e0-4d5d-884d-6d638ed6c821_8
+9aa30a507319   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_ping-server-7ffdcf6665-4stpq_default_87b574cd-7cdb-44e8-96aa-c6b4e67a5b07_6
+ab1c7495d7ba   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_svclb-traefik-vsc7l_kube-system_cd88d7c3-9510-4a8e-a13c-9d2d20ddaa09_7
+906dcc0b07ba   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_metrics-server-ff9dbcb6c-ljzzh_kube-system_dd298f43-cbc8-45fa-a137-4466ca5d2ac9_7
+31832586d528   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_local-path-provisioner-84bb864455-rpvgd_kube-system_987e513f-0064-4227-a462-353e7c3cc428_7
+085c4289a1ed   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_traefik-55fdc6d984-bhrfj_kube-system_35675c7a-dac8-4917-bee9-57b55f912e96_7
+8bf599677097   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_coredns-96cc4f57d-pnx6m_kube-system_ead49339-53e0-4d5d-884d-6d638ed6c821_7
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker images
+REPOSITORY                         TAG       IMAGE ID       CREATED              SIZE
+<none>                             <none>    b1096a287158   About a minute ago   315MB
+spintly/ping-server                latest    f23f1fd3d6dd   7 days ago           12.5MB
+<none>                             <none>    b07c0d834126   7 days ago           328MB
+golang                             alpine    e8fc0c5ad389   5 weeks ago          315MB
+rancher/mirrored-library-traefik   2.5.6     2cd4bc25ad14   8 weeks ago          101MB
+rancher/local-path-provisioner     v0.0.21   fb9b574e03c3   8 weeks ago          35MB
+alpine                             latest    c059bfaa849c   2 months ago         5.59MB
+rancher/mirrored-metrics-server    v0.5.2    f73640fb5061   3 months ago         64.3MB
+rancher/klipper-lb                 v0.3.4    746788bcc27e   3 months ago         8.08MB
+rancher/mirrored-coredns-coredns   1.8.6     a4ca41631cc7   4 months ago         46.8MB
+rancher/mirrored-pause             3.6       6270bb605e12   5 months ago         683kB
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ vi
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl apply -f k8s-deployment.yml 
+deployment.apps/ping-server configured
+service/ping-server unchanged
+horizontalpodautoscaler.autoscaling/ping-server unchanged
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker images
+REPOSITORY                         TAG       IMAGE ID       CREATED              SIZE
+<none>                             <none>    b1096a287158   About a minute ago   315MB
+spintly/ping-server                latest    f23f1fd3d6dd   7 days ago           12.5MB
+<none>                             <none>    b07c0d834126   7 days ago           328MB
+golang                             alpine    e8fc0c5ad389   5 weeks ago          315MB
+rancher/mirrored-library-traefik   2.5.6     2cd4bc25ad14   8 weeks ago          101MB
+rancher/local-path-provisioner     v0.0.21   fb9b574e03c3   8 weeks ago          35MB
+alpine                             latest    c059bfaa849c   2 months ago         5.59MB
+rancher/mirrored-metrics-server    v0.5.2    f73640fb5061   3 months ago         64.3MB
+rancher/klipper-lb                 v0.3.4    746788bcc27e   3 months ago         8.08MB
+rancher/mirrored-coredns-coredns   1.8.6     a4ca41631cc7   4 months ago         46.8MB
+rancher/mirrored-pause             3.6       6270bb605e12   5 months ago         683kB
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS              RESTARTS   AGE
+ping-server-d8d447df5-rlnj4    0/1     ContainerCreating   0          8s
+ping-server-64849875b8-l65wt   0/1     ErrImagePull        0          66s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS              RESTARTS   AGE
+ping-server-d8d447df5-rlnj4    0/1     ContainerCreating   0          11s
+ping-server-64849875b8-l65wt   0/1     ErrImagePull        0          69s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-64849875b8-l65wt   0/1     ImagePullBackOff   0          73s
+ping-server-d8d447df5-rlnj4    0/1     ErrImagePull       0          15s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-64849875b8-l65wt   0/1     ImagePullBackOff   0          74s
+ping-server-d8d447df5-rlnj4    0/1     ErrImagePull       0          16s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-64849875b8-l65wt   0/1     ImagePullBackOff   0          76s
+ping-server-d8d447df5-rlnj4    0/1     ErrImagePull       0          18s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-64849875b8-l65wt   0/1     ImagePullBackOff   0          6m16s
+ping-server-d8d447df5-rlnj4    0/1     ImagePullBackOff   0          5m18s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker images
+REPOSITORY                         TAG       IMAGE ID       CREATED         SIZE
+<none>                             <none>    b1096a287158   7 minutes ago   315MB
+spintly/ping-server                latest    f23f1fd3d6dd   7 days ago      12.5MB
+<none>                             <none>    b07c0d834126   7 days ago      328MB
+golang                             alpine    e8fc0c5ad389   5 weeks ago     315MB
+rancher/mirrored-library-traefik   2.5.6     2cd4bc25ad14   8 weeks ago     101MB
+rancher/local-path-provisioner     v0.0.21   fb9b574e03c3   8 weeks ago     35MB
+alpine                             latest    c059bfaa849c   2 months ago    5.59MB
+rancher/mirrored-metrics-server    v0.5.2    f73640fb5061   3 months ago    64.3MB
+rancher/klipper-lb                 v0.3.4    746788bcc27e   3 months ago    8.08MB
+rancher/mirrored-coredns-coredns   1.8.6     a4ca41631cc7   4 months ago    46.8MB
+rancher/mirrored-pause             3.6       6270bb605e12   5 months ago    683kB
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker run spintly/ping-server -p 8080:8080
+2022/02/17 10:33:40 Error while loading environment variables! open .env: no such file or directory
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl create secret ping-server generic --from-env-file=.env
+Error: unknown flag: --from-env-file
+See 'kubectl create secret --help' for usage.
+unknown flag: --from-env-file
+See 'kubectl create secret --help' for usage.
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl create secret ping-server generic 
+error: unknown command "ping-server generic"
+See 'kubectl create secret -h' for help and examples
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl create secret generic ping-server --from-env-file=.env
+error: failed to create secret secrets "ping-server" already exists
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl deletete secret generic ping-server --from-env-file=.env
+Error: unknown command "deletete" for "kubectl"
+
+Did you mean this?
+	delete
+
+Run 'kubectl --help' for usage.
+unknown command "deletete" for "kubectl"
+
+Did you mean this?
+	delete
+
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl delete secret generic ping-server --from-env-file=.env
+Error: unknown flag: --from-env-file
+See 'kubectl delete --help' for usage.
+unknown flag: --from-env-file
+See 'kubectl delete --help' for usage.
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl delete secret generic ping-server # --from-env-file=.env
+secret "ping-server" deleted
+Error from server (NotFound): secrets "generic" not found
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl create secret generic ping-server --from-env-file=.env
+secret/ping-server created
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl describe secret ping-server
+Name:         ping-server
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+PASSWORD:      11 bytes
+SERVICE_NAME:  9 bytes
+URL:           58 bytes
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl describe secret ping-server -o wide
+Error: unknown shorthand flag: 'o' in -o
+See 'kubectl describe --help' for usage.
+unknown shorthand flag: 'o' in -o
+See 'kubectl describe --help' for usage.
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl describe secret ping-server -o yaml
+Error: unknown shorthand flag: 'o' in -o
+See 'kubectl describe --help' for usage.
+unknown shorthand flag: 'o' in -o
+See 'kubectl describe --help' for usage.
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl describe secret ping-server -
+Name:         ping-server
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+URL:           58 bytes
+PASSWORD:      11 bytes
+SERVICE_NAME:  9 bytes
+Error from server (NotFound): secrets "-" not found
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl describe secret ping-server
+Name:         ping-server
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+PASSWORD:      11 bytes
+SERVICE_NAME:  9 bytes
+URL:           58 bytes
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get secret ping-server
+NAME          TYPE     DATA   AGE
+ping-server   Opaque   3      76s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl describe secret ping-server
+Name:         ping-server
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+PASSWORD:      11 bytes
+SERVICE_NAME:  9 bytes
+URL:           58 bytes
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ 
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 399029391937.dkr.ecr.ap-south-1.amazonaws.com
+WARNING! Your password will be stored unencrypted in /home/spintly/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker build -t spintly/ping-server .
+Sending build context to Docker daemon   72.7kB
+Step 1/11 : FROM golang:alpine AS build-env
+ ---> e8fc0c5ad389
+Step 2/11 : WORKDIR /app
+ ---> Using cache
+ ---> 43a2469ce88c
+Step 3/11 : ADD . /app
+ ---> 0b7daaf71824
+Step 4/11 : RUN go get
+ ---> Running in 91727c7063bb
+go: downloading github.com/joho/godotenv v1.4.0
+Removing intermediate container 91727c7063bb
+ ---> f1b6337e8ec3
+Step 5/11 : RUN go build -o goserver .
+ ---> Running in ac6f2c9c440e
+Removing intermediate container ac6f2c9c440e
+ ---> f9c726521177
+Step 6/11 : FROM alpine
+ ---> c059bfaa849c
+Step 7/11 : RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+ ---> Using cache
+ ---> 1c3e91ff09a9
+Step 8/11 : WORKDIR /app
+ ---> Using cache
+ ---> 3b25bd90c777
+Step 9/11 : COPY --from=build-env /app/goserver /app
+ ---> Using cache
+ ---> 9d15295e3b81
+Step 10/11 : EXPOSE 8080
+ ---> Using cache
+ ---> 469f7fe00689
+Step 11/11 : ENTRYPOINT ./goserver
+ ---> Using cache
+ ---> f23f1fd3d6dd
+Successfully built f23f1fd3d6dd
+Successfully tagged spintly/ping-server:latest
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker tag spintly/ping-server:latest 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker push 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server
+Using default tag: latest
+The push refers to repository [399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server]
+a6dce8a52b31: Retrying in 1 second 
+73a0ff446416: Retrying in 15 seconds 
+dfaecb804e34: Retrying in 1 second 
+8d3ac3489996: Retrying in 1 second 
+^C
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker push 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+The push refers to repository [399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server]
+a6dce8a52b31: Retrying in 1 second 
+73a0ff446416: Retrying in 1 second 
+dfaecb804e34: Retrying in 1 second 
+8d3ac3489996: Retrying in 1 second 
+EOF
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+[sudo] password for spintly: 
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-d8d447df5-rlnj4    0/1     ImagePullBackOff   0          49m
+ping-server-64849875b8-l65wt   0/1     ImagePullBackOff   0          50m
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-d8d447df5-rlnj4    0/1     ImagePullBackOff   0          49m
+ping-server-64849875b8-l65wt   0/1     ImagePullBackOff   0          50m
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl apply -f k8s-deployment.yml 
+deployment.apps/ping-server configured
+service/ping-server unchanged
+horizontalpodautoscaler.autoscaling/ping-server unchanged
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS              RESTARTS   AGE
+ping-server-d8d447df5-rlnj4    0/1     ErrImagePull        0          49m
+ping-server-544f5b8d46-rtpfq   0/1     ContainerCreating   0          4s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS         RESTARTS   AGE
+ping-server-d8d447df5-rlnj4    0/1     ErrImagePull   0          49m
+ping-server-544f5b8d46-rtpfq   0/1     ErrImagePull   0          9s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-544f5b8d46-rtpfq   0/1     ErrImagePull       0          13s
+ping-server-d8d447df5-rlnj4    0/1     ImagePullBackOff   0          49m
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker image pull 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+latest: Pulling from spintly/ping-server
+59bf1c3509f3: Already exists 
+61d87702f3d5: Pull complete 
+e6013b90c29b: Pull complete 
+0f0223d0b895: Pull complete 
+Digest: sha256:4f4bb043532c191e34188aaf0d357bf856a09850d2c15f650955ca4ee414f915
+Status: Downloaded newer image for 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-d8d447df5-rlnj4    0/1     ImagePullBackOff   0          52m
+ping-server-544f5b8d46-rtpfq   0/1     ImagePullBackOff   0          3m24s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl delete pods
+error: resource(s) were provided, but no name was specified
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl delete deployment ping-server
+deployment.apps "ping-server" deleted
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl apply -f k8s-deployment.yml 
+deployment.apps/ping-server created
+service/ping-server unchanged
+horizontalpodautoscaler.autoscaling/ping-server unchanged
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-74cb4b748d-h49bq   0/1     ImagePullBackOff   0          16s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl delete -f k8s-deployment.yml 
+deployment.apps "ping-server" deleted
+service "ping-server" deleted
+horizontalpodautoscaler.autoscaling "ping-server" deleted
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl apply -f k8s-deployment.yml 
+deployment.apps/ping-server created
+service/ping-server created
+horizontalpodautoscaler.autoscaling/ping-server created
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS              RESTARTS   AGE
+ping-server-74cb4b748d-bg7fk   0/1     ContainerCreating   0          3s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS         RESTARTS   AGE
+ping-server-74cb4b748d-bg7fk   0/1     ErrImagePull   0          8s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker push 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+The push refers to repository [399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server]
+fdbee8d3a51d: Layer already exists 
+1d6ce6f7777d: Layer already exists 
+2bae559e749d: Layer already exists 
+8d3ac3489996: Layer already exists 
+denied: User: arn:aws:iam::399029391937:user/on.prem.server.spintly is not authorized to perform: ecr:PutImage on resource: arn:aws:ecr:ap-south-1:399029391937:repository/spintly/ping-server because no identity-based policy allows the ecr:PutImage action
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ docker pull 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+latest: Pulling from spintly/ping-server
+Digest: sha256:4f4bb043532c191e34188aaf0d357bf856a09850d2c15f650955ca4ee414f915
+Status: Image is up to date for 399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+399029391937.dkr.ecr.ap-south-1.amazonaws.com/spintly/ping-server:latest
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+NAME                           READY   STATUS             RESTARTS   AGE
+ping-server-74cb4b748d-bg7fk   0/1     ImagePullBackOff   0          54s
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ sudo k3s kubectl get pods
+[sudo] password for spintly: 
+NAME                           READY   STATUS         RESTARTS   AGE
+ping-server-74cb4b748d-bg7fk   0/1     ErrImagePull   0          83m
+spintly@spintly-PowerEdge-T40:~/ping-server-for-documentation$ 
+

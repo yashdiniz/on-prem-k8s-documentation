@@ -1,0 +1,236 @@
+<pre><font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~</b></font>$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~</b></font>$ rm get_helm.sh 
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~</b></font>$ cd Do
+Documents/ Downloads/ 
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~</b></font>$ cd Downloads/
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/Downloads</b></font>$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/Downloads</b></font>$ chmod 700 get_helm.sh 
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/Downloads</b></font>$ ./get_helm.sh 
+Downloading https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz
+Verifying checksum... Done.
+Preparing to install helm into /usr/local/bin
+[sudo] password for spintly: 
+helm installed into /usr/local/bin/helm
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/Downloads</b></font>$ helm
+The Kubernetes package manager
+
+Common actions for Helm:
+
+- helm search:    search for charts
+- helm pull:      download a chart to your local directory to view
+- helm install:   upload the chart to Kubernetes
+- helm list:      list releases of charts
+
+Environment variables:
+
+| Name                               | Description                                                                       |
+|------------------------------------|-----------------------------------------------------------------------------------|
+| $HELM_CACHE_HOME                   | set an alternative location for storing cached files.                             |
+| $HELM_CONFIG_HOME                  | set an alternative location for storing Helm configuration.                       |
+| $HELM_DATA_HOME                    | set an alternative location for storing Helm data.                                |
+| $HELM_DEBUG                        | indicate whether or not Helm is running in Debug mode                             |
+| $HELM_DRIVER                       | set the backend storage driver. Values are: configmap, secret, memory, sql.       |
+| $HELM_DRIVER_SQL_CONNECTION_STRING | set the connection string the SQL storage driver should use.                      |
+| $HELM_MAX_HISTORY                  | set the maximum number of helm release history.                                   |
+| $HELM_NAMESPACE                    | set the namespace used for the helm operations.                                   |
+| $HELM_NO_PLUGINS                   | disable plugins. Set HELM_NO_PLUGINS=1 to disable plugins.                        |
+| $HELM_PLUGINS                      | set the path to the plugins directory                                             |
+| $HELM_REGISTRY_CONFIG              | set the path to the registry config file.                                         |
+| $HELM_REPOSITORY_CACHE             | set the path to the repository cache directory                                    |
+| $HELM_REPOSITORY_CONFIG            | set the path to the repositories file.                                            |
+| $KUBECONFIG                        | set an alternative Kubernetes configuration file (default &quot;~/.kube/config&quot;)       |
+| $HELM_KUBEAPISERVER                | set the Kubernetes API Server Endpoint for authentication                         |
+| $HELM_KUBECAFILE                   | set the Kubernetes certificate authority file.                                    |
+| $HELM_KUBEASGROUPS                 | set the Groups to use for impersonation using a comma-separated list.             |
+| $HELM_KUBEASUSER                   | set the Username to impersonate for the operation.                                |
+| $HELM_KUBECONTEXT                  | set the name of the kubeconfig context.                                           |
+| $HELM_KUBETOKEN                    | set the Bearer KubeToken used for authentication.                                 |
+
+Helm stores cache, configuration, and data based on the following configuration order:
+
+- If a HELM_*_HOME environment variable is set, it will be used
+- Otherwise, on systems supporting the XDG base directory specification, the XDG variables will be used
+- When no other location is set a default location will be used based on the operating system
+
+By default, the default directories depend on the Operating System. The defaults are listed below:
+
+| Operating System | Cache Path                | Configuration Path             | Data Path               |
+|------------------|---------------------------|--------------------------------|-------------------------|
+| Linux            | $HOME/.cache/helm         | $HOME/.config/helm             | $HOME/.local/share/helm |
+| macOS            | $HOME/Library/Caches/helm | $HOME/Library/Preferences/helm | $HOME/Library/helm      |
+| Windows          | %TEMP%\helm               | %APPDATA%\helm                 | %APPDATA%\helm          |
+
+Usage:
+  helm [command]
+
+Available Commands:
+  completion  generate autocompletion scripts for the specified shell
+  create      create a new chart with the given name
+  dependency  manage a chart&apos;s dependencies
+  env         helm client environment information
+  get         download extended information of a named release
+  help        Help about any command
+  history     fetch release history
+  install     install a chart
+  lint        examine a chart for possible issues
+  list        list releases
+  package     package a chart directory into a chart archive
+  plugin      install, list, or uninstall Helm plugins
+  pull        download a chart from a repository and (optionally) unpack it in local directory
+  push        push a chart to remote
+  registry    login to or logout from a registry
+  repo        add, list, remove, update, and index chart repositories
+  rollback    roll back a release to a previous revision
+  search      search for a keyword in charts
+  show        show information of a chart
+  status      display the status of the named release
+  template    locally render templates
+  test        run tests for a release
+  uninstall   uninstall a release
+  upgrade     upgrade a release
+  verify      verify that a chart at the given path has been signed and is valid
+  version     print the client version information
+
+Flags:
+      --debug                       enable verbose output
+  -h, --help                        help for helm
+      --kube-apiserver string       the address and the port for the Kubernetes API server
+      --kube-as-group stringArray   group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+      --kube-as-user string         username to impersonate for the operation
+      --kube-ca-file string         the certificate authority file for the Kubernetes API server connection
+      --kube-context string         name of the kubeconfig context to use
+      --kube-token string           bearer token used for authentication
+      --kubeconfig string           path to the kubeconfig file
+  -n, --namespace string            namespace scope for this request
+      --registry-config string      path to the registry config file (default &quot;/home/spintly/.config/helm/registry/config.json&quot;)
+      --repository-cache string     path to the file containing cached repository indexes (default &quot;/home/spintly/.cache/helm/repository&quot;)
+      --repository-config string    path to the file containing repository names and URLs (default &quot;/home/spintly/.config/helm/repositories.yaml&quot;)
+
+Use &quot;helm [command] --help&quot; for more information about a command.
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/Downloads</b></font>$ cd 
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~</b></font>$ git clone git@github.com:yashdiniz/spintly-on-helm.git
+Cloning into &apos;spintly-on-helm&apos;...
+warning: You appear to have cloned an empty repository.
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~</b></font>$ cd spintly-on-helm/
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm</b></font>$ helm create deis-workflow
+Creating deis-workflow
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm</b></font>$ rm ./deis-workflow/ -r
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm</b></font>$ helm create k8s-spintly
+Creating k8s-spintly
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm</b></font>$ ls
+<font color="#3465A4"><b>k8s-spintly</b></font>
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm</b></font>$ cd k8s-spintly/
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm/k8s-spintly</b></font>$ ls
+<font color="#3465A4"><b>charts</b></font>  Chart.yaml  <font color="#3465A4"><b>templates</b></font>  values.yaml
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm/k8s-spintly</b></font>$ ls charts/
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm/k8s-spintly</b></font>$ cat Chart.yaml 
+apiVersion: v2
+name: k8s-spintly
+description: A Helm chart for Kubernetes
+
+# A chart can be either an &apos;application&apos; or a &apos;library&apos; chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They&apos;re included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: &quot;1.16.0&quot;
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm/k8s-spintly</b></font>$ cat values.yaml 
+# Default values for k8s-spintly.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: &quot;&quot;
+
+imagePullSecrets: []
+nameOverride: &quot;&quot;
+fullnameOverride: &quot;&quot;
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: &quot;&quot;
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: &quot;&quot;
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: &quot;true&quot;
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after &apos;resources:&apos;.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+<font color="#4E9A06"><b>spintly@spintly-PowerEdge-T40</b></font>:<font color="#3465A4"><b>~/spintly-on-helm/k8s-spintly</b></font>$ 
+
+</pre>
