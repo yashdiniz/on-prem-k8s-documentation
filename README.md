@@ -72,6 +72,23 @@ Refer to [this documentation from AWS](https://docs.aws.amazon.com/cli/latest/us
 
 Refer to [this documentation from Helm](https://helm.sh/docs/intro/install/#from-script) for installing Helm on Linux.
 
+Using helm on k3s also requires the installation of the helm-controller.
+
+```bash
+helm repo add stable https://charts.helm.sh/stable
+helm repo update
+
+sudo kubectl -n kube-system create serviceaccount tiller
+sudo kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+sudo helm init --service-account tiller
+```
+
+## Installing Golang
+
+A majority of the tools used to interact with Kubernetes (including Kubernetes itself) is written in Go. We need to install golang on-premises since some utilities need Go's module management during installation and building.
+
+Refer to [this documentation from Golang Downloads](https://go.dev/doc/install) for installation instructions on Linux.
+
 ## Create an AWS IAM user
 
 Ask someone who has IAM access to create an IAM user. Currently, a user named `on.prem.server.spintly` with `AmazonEC2ContainerRegistryReadOnly` access has already been created for the Spintly on-premises servers. It is recommended to **create a different user for other on-premises servers**.
@@ -86,11 +103,54 @@ Also remember to use `aws configure` to login to that user on the system.
 
 GitOps is a form of DevOps where the configurations are maintained in declarative form (**YAML** files for Kubernetes) on **Git**. This allows for version-controlled configurations, which is one of the best form of auditing and transaction management for cloud infrastructure. More about GitOps [can be found here](https://www.gitops.tech/).
 
-GitOps will allow for easier pull-based OTA updates of the on-premises server. The architecture is shown in the diagram below:
+GitOps will allow for easier pull-based OTA updates of the on-premises server. The architecture is shown in the diagram here:
 ![GitOps Architecture Overview](./assets/GitOps-Architecture.drawio.png)
 
+Secrets management will require the following:
 
-### Installing 
+1. The Kubernetes Operator, [Bitnami sealed secrets](https://github.com/bitnami-labs/sealed-secrets)
+1. The client-side push tool, Kubeseal.
+
+### Installing `kubeseal`
+
+Refer to [this documentation from Bitnami Labs](https://github.com/bitnami-labs/sealed-secrets#installation-from-source) to install `kubeseal`.
+
+### Installing Sealed Secrets
+
+Using helm to install Sealed Secrets as follows:
+
+```bash
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+```
+
+https://cloud.redhat.com/blog/gitops-secret-management
+
+https://github.com/raif-ahmed/oc4-learn/blob/master/secret-managment/sealed-secrets/base/kustomization.yaml
+
+https://artifacthub.io/packages/helm/bitnami-labs/sealed-secrets
+
+https://github.com/bitnami-labs/sealed-secrets/releases
+
+https://github.com/bitnami-labs/sealed-secrets#installation-from-source
+
+### Uploading a Sealed Secret up to Kubernetes
+
+```bash
+# Create a json/yaml-encoded Secret somehow:
+# (note use of `--dry-run` - this is just a local file!)
+echo -n bar | kubectl create secret generic mysecret --dry-run=client --from-file=foo=/dev/stdin -o json >mysecret.json
+
+# This is the important bit:
+# (note default format is json!)
+kubeseal <mysecret.json >mysealedsecret.json
+
+# mysealedsecret.json is safe to upload to github, post to twitter,
+# etc.  Eventually:
+kubectl create -f mysealedsecret.json
+
+# Profit!
+kubectl get secret mysecret
+```
 
 ## Login to AWS ECR for pulling images
 
