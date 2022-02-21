@@ -78,9 +78,19 @@ Ask someone who has IAM access to create an IAM user. Currently, a user named `o
 
 Also remember to use `aws configure` to login to that user on the system.
 
-## Creating the required AWS ECR repository
+## Creating an AWS ECR repository
 
-> NOTE: TODO
+> NOTE: TO BE documented. (need to add diagrams and make it really illustrative)
+
+## GitOps and Secrets management
+
+GitOps is a form of DevOps where the configurations are maintained in declarative form (**YAML** files for Kubernetes) on **Git**. This allows for version-controlled configurations, which is one of the best form of auditing and transaction management for cloud infrastructure. More about GitOps [can be found here](https://www.gitops.tech/).
+
+GitOps will allow for easier pull-based OTA updates of the on-premises server. The architecture is shown in the diagram below:
+![GitOps Architecture Overview](./assets/GitOps-Architecture.drawio.png)
+
+
+### Installing 
 
 ## Login to AWS ECR for pulling images
 
@@ -129,3 +139,4 @@ https://helm.sh/docs/topics/charts/
 1. [Install Helm](https://helm.sh/docs/intro/install/)
 1. [Using a private registry on k3s](https://bryanbende.com/development/2021/07/02/k3s-raspberry-pi-jenkins-registry-p1)
 1. [A Solution to AWS ECR Image Pull Secrets](https://github.com/k3s-io/k3s/issues/1427#issuecomment-781309205)
+1. [GitOps - Introduction](https://www.gitops.tech/)
