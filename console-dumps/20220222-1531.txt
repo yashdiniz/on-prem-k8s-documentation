@@ -119,7 +119,7 @@ Get:6 https://packages.cloud.google.com/apt kubernetes-xenial InRelease [9,383 B
 Get:7 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 Packages [53.9 kB]
 Fetched 63.3 kB in 2s (33.2 kB/s)
 Reading package lists... Done
-spintly@spintly-PowerEdge-T40:~$ sudo apt-get install -y kubelet kubeadm kubectl
+spintly@spintly-PowerEdge-T40:~$ sudo apt-get install -y kubelet<=1.23.4 kubeadm<=1.23.4 kubectl<=1.23.4
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done
@@ -181,5 +181,293 @@ Setting up kubelet (1.23.4-00) ...
 Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /lib/systemd/system/kubelet.service.
 Setting up kubeadm (1.23.4-00) ...
 Processing triggers for man-db (2.9.1-1) ...
-spintly@spintly-PowerEdge-T40:~$ 
 
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm init --config kubeadm/kubeadm-config.yaml 
+[init] Using Kubernetes version: v1.23.0
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local spintly-poweredge-t40] and IPs [10.96.0.1 172.20.10.134]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [localhost spintly-poweredge-t40] and IPs [172.20.10.134 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [localhost spintly-poweredge-t40] and IPs [172.20.10.134 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[kubelet-check] Initial timeout of 40s passed.
+[kubelet-check] It seems like the kubelet isn't running or healthy.
+[kubelet-check] The HTTP call equal to 'curl -sSL http://localhost:10248/healthz' failed with error: Get "http://localhost:10248/healthz": dial tcp 127.0.0.1:10248: connect: connection refused.
+[kubelet-check] It seems like the kubelet isn't running or healthy.
+[kubelet-check] The HTTP call equal to 'curl -sSL http://localhost:10248/healthz' failed with error: Get "http://localhost:10248/healthz": dial tcp 127.0.0.1:10248: connect: connection refused.
+[kubelet-check] It seems like the kubelet isn't running or healthy.
+[kubelet-check] The HTTP call equal to 'curl -sSL http://localhost:10248/healthz' failed with error: Get "http://localhost:10248/healthz": dial tcp 127.0.0.1:10248: connect: connection refused.
+[kubelet-check] It seems like the kubelet isn't running or healthy.
+[kubelet-check] The HTTP call equal to 'curl -sSL http://localhost:10248/healthz' failed with error: Get "http://localhost:10248/healthz": dial tcp 127.0.0.1:10248: connect: connection refused.
+[kubelet-check] It seems like the kubelet isn't running or healthy.
+[kubelet-check] The HTTP call equal to 'curl -sSL http://localhost:10248/healthz' failed with error: Get "http://localhost:10248/healthz": dial tcp 127.0.0.1:10248: connect: connection refused.
+
+	Unfortunately, an error has occurred:
+		timed out waiting for the condition
+
+	This error is likely caused by:
+		- The kubelet is not running
+		- The kubelet is unhealthy due to a misconfiguration of the node in some way (required cgroups disabled)
+
+	If you are on a systemd-powered system, you can try to troubleshoot the error with the following commands:
+		- 'systemctl status kubelet'
+		- 'journalctl -xeu kubelet'
+
+	Additionally, a control plane component may have crashed or exited when started by the container runtime.
+	To troubleshoot, list all containers using your preferred container runtimes CLI.
+
+	Here is one example how you may list all Kubernetes containers running in docker:
+		- 'docker ps -a | grep kube | grep -v pause'
+		Once you have found the failing container, you can inspect its logs with:
+		- 'docker logs CONTAINERID'
+
+error execution phase wait-control-plane: couldn't initialize a Kubernetes cluster
+To see the stack trace of this error execute with --v=5 or higher
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ kubeadm config images pull
+[config/images] Pulled k8s.gcr.io/kube-apiserver:v1.23.4
+[config/images] Pulled k8s.gcr.io/kube-controller-manager:v1.23.4
+[config/images] Pulled k8s.gcr.io/kube-scheduler:v1.23.4
+[config/images] Pulled k8s.gcr.io/kube-proxy:v1.23.4
+[config/images] Pulled k8s.gcr.io/pause:3.6
+[config/images] Pulled k8s.gcr.io/etcd:3.5.1-0
+[config/images] Pulled k8s.gcr.io/coredns/coredns:v1.8.6
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ service kubelet status
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Loaded: loaded (/lib/systemd/system/kubelet.service; enabled; vendor preset: enabled)
+    Drop-In: /etc/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+     Active: activating (auto-restart) (Result: exit-code) since Tue 2022-02-22 16:03:48 IST; 4s ago
+       Docs: https://kubernetes.io/docs/home/
+    Process: 29883 ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS (code=exited, status=1/FAILURE)
+   Main PID: 29883 (code=exited, status=1/FAILURE)
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ service kubelet start
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ service kubelet status
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Loaded: loaded (/lib/systemd/system/kubelet.service; enabled; vendor preset: enabled)
+    Drop-In: /etc/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+     Active: activating (auto-restart) (Result: exit-code) since Tue 2022-02-22 16:04:19 IST; 1s ago
+       Docs: https://kubernetes.io/docs/home/
+    Process: 30123 ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS (code=exited, status=1/FAILURE)
+   Main PID: 30123 (code=exited, status=1/FAILURE)
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker ps -a | grep kube | grep -v pause'
+> ^C
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker ps -a | grep kube | grep -v pause
+e7e689dc4372   746788bcc27e                 "entry"                  59 minutes ago      Up 59 minutes                              k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+84bc800714a2   fb9b574e03c3                 "local-path-provisio…"   59 minutes ago      Up 59 minutes                              k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+fdfe0c94af42   746788bcc27e                 "entry"                  59 minutes ago      Up 59 minutes                              k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+6be8a60428ad   a4ca41631cc7                 "/coredns -conf /etc…"   59 minutes ago      Up 59 minutes                              k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+9e56169e1ed3   f73640fb5061                 "/metrics-server --c…"   59 minutes ago      Up 59 minutes                              k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+f707748f767a   2cd4bc25ad14                 "/entrypoint.sh --gl…"   59 minutes ago      Up 59 minutes                              k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+a0f45c1d9e96   746788bcc27e                 "entry"                  About an hour ago   Exited (1) About an hour ago               k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+7e2469f6076e   746788bcc27e                 "entry"                  About an hour ago   Exited (1) About an hour ago               k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+3be8c6b615c9   a4ca41631cc7                 "/coredns -conf /etc…"   About an hour ago   Exited (0) About an hour ago               k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1
+4c7ea9194b17   2cd4bc25ad14                 "/entrypoint.sh --gl…"   About an hour ago   Exited (0) About an hour ago               k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+43ec3bce77ab   fb9b574e03c3                 "local-path-provisio…"   About an hour ago   Exited (137) About an hour ago             k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1
+36c24468754c   f73640fb5061                 "/metrics-server --c…"   About an hour ago   Exited (0) About an hour ago               k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm 
+gallant_chaum
+k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1
+k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1
+k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1
+k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+pedantic_williams
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1
+k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker ps -a | docker rm
+"docker rm" requires at least 1 argument.
+See 'docker rm --help'.
+
+Usage:  docker rm [OPTIONS] CONTAINER [CONTAINER...]
+
+Remove one or more containers
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker ps -a | docker rm --stdin
+unknown flag: --stdin
+See 'docker rm --help'.
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm gallant_chaum pedantic_williams 
+gallant_chaum
+pedantic_williams
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_*
+Error: No such container: k8s_*
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_
+Error: No such container: k8s_
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo docker stop
+[sudo] password for spintly: 
+Sorry, try again.
+[sudo] password for spintly: 
+"docker stop" requires at least 1 argument.
+See 'docker stop --help'.
+
+Usage:  docker stop [OPTIONS] CONTAINER [CONTAINER...]
+
+Stop one or more running containers
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo docker rm -a
+unknown shorthand flag: 'a' in -a
+See 'docker rm --help'.
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo docker rm -
+-f         --force    --help     -l         --link     -v         --volumes  
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1
+k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1
+k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1
+k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1 k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1 k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1 k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1 k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1 k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1 
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1
+k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1
+k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_1
+k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_1
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo docker rm -a
+unknown shorthand flag: 'a' in -a
+See 'docker rm --help'.
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo docker rm k8s_
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1  k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1             k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo docker rm k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1 k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1 k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1 k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1 
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_1
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_1
+k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_1
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker ps -a
+CONTAINER ID   IMAGE                        COMMAND                  CREATED             STATUS             PORTS     NAMES
+e7e689dc4372   746788bcc27e                 "entry"                  About an hour ago   Up About an hour             k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+84bc800714a2   fb9b574e03c3                 "local-path-provisio…"   About an hour ago   Up About an hour             k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+fdfe0c94af42   746788bcc27e                 "entry"                  About an hour ago   Up About an hour             k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+6be8a60428ad   a4ca41631cc7                 "/coredns -conf /etc…"   About an hour ago   Up About an hour             k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+9e56169e1ed3   f73640fb5061                 "/metrics-server --c…"   About an hour ago   Up About an hour             k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+f707748f767a   2cd4bc25ad14                 "/entrypoint.sh --gl…"   About an hour ago   Up About an hour             k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+c62ceb87922c   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+f948d09532b9   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+a66756c46d64   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+70c32cc52150   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+d64d8eb41d03   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Up About an hour             k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker stop k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2 k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2 k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2 k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2 k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2 k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2 
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker ps -a
+CONTAINER ID   IMAGE                        COMMAND                  CREATED             STATUS                        PORTS     NAMES
+e7e689dc4372   746788bcc27e                 "entry"                  About an hour ago   Exited (1) 47 seconds ago               k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+84bc800714a2   fb9b574e03c3                 "local-path-provisio…"   About an hour ago   Exited (137) 37 seconds ago             k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+fdfe0c94af42   746788bcc27e                 "entry"                  About an hour ago   Exited (1) 47 seconds ago               k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+6be8a60428ad   a4ca41631cc7                 "/coredns -conf /etc…"   About an hour ago   Exited (0) 47 seconds ago               k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+9e56169e1ed3   f73640fb5061                 "/metrics-server --c…"   About an hour ago   Exited (0) 47 seconds ago               k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+f707748f767a   2cd4bc25ad14                 "/entrypoint.sh --gl…"   About an hour ago   Exited (0) 47 seconds ago               k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+c62ceb87922c   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Exited (0) 47 seconds ago               k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+f948d09532b9   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Exited (0) 47 seconds ago               k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+a66756c46d64   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Exited (0) 47 seconds ago               k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+70c32cc52150   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Exited (0) 47 seconds ago               k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+d64d8eb41d03   rancher/mirrored-pause:3.6   "/pause"                 About an hour ago   Exited (0) 47 seconds ago               k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm 
+"docker rm" requires at least 1 argument.
+See 'docker rm --help'.
+
+Usage:  docker rm [OPTIONS] CONTAINER [CONTAINER...]
+
+Remove one or more containers
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_
+k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_
+k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2 k8s_l
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2 k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2 k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2 k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2 k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2 k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2 
+k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+Error response from daemon: removal of container k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 is already in progress
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker rm k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2 k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2 k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2 k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2 k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2 k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2 k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2 k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2 
+Error: No such container: k8s_coredns_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+Error: No such container: k8s_lb-port-80_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+Error: No such container: k8s_lb-port-443_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+Error: No such container: k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+Error: No such container: k8s_metrics-server_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+Error: No such container: k8s_local-path-provisioner_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+Error: No such container: k8s_POD_coredns-96cc4f57d-lnrw9_kube-system_bcc111ed-ad6f-4085-889f-93e6b959aee4_2
+Error: No such container: k8s_POD_local-path-provisioner-84bb864455-q2jxl_kube-system_e9de04d2-0191-4935-af75-e0c326c1feb9_2
+Error: No such container: k8s_POD_metrics-server-ff9dbcb6c-hqfwb_kube-system_d1de40b5-0bf8-4108-873f-f49d44b4f90d_2
+Error: No such container: k8s_POD_svclb-traefik-g2ttn_kube-system_d51dda4a-abaa-4006-93eb-a189386272ac_2
+Error: No such container: k8s_POD_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+Error: No such container: k8s_traefik_traefik-55fdc6d984-8m862_kube-system_c1272226-dbc0-4076-8745-6cf6f930891e_2
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ 
