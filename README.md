@@ -150,21 +150,37 @@ Refer to [this documentation from Bitnami Labs](https://github.com/bitnami-labs/
 
 ### Installing Sealed Secrets
 
+Sealed Secrets is an operator (a polling server running inside Kubernetes) that manages encrypted secrets by allowing us to push encrypted secrets (aka SealedSecrets) to git, and decrypting them for us by pulling from git.
+
 Using helm to install Sealed Secrets as follows:
 
 ```bash
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm install sealed-secrets sealed-secrets/sealed-secrets
 ```
 
-https://cloud.redhat.com/blog/gitops-secret-management
+Then we use `kubeseal` to fetch the Public Key that we will use to encrypt the secrets, as follows:
 
-https://github.com/raif-ahmed/oc4-learn/blob/master/secret-managment/sealed-secrets/base/kustomization.yaml
+```bash
+kubeseal \
+    --controller-name=sealed-secrets \
+    --controller-namespace=<namespace> \
+    --fetch-cert > publicKey.pem
+```
 
-https://artifacthub.io/packages/helm/bitnami-labs/sealed-secrets
+Finally, we encrypt the secrets using the command (here, we are storing the secrets in a file named `.env`. `.env` should NOT be added to version control!):
 
-https://github.com/bitnami-labs/sealed-secrets/releases
+```bash
+kubectl create secret -n <namespace> generic <secret-name> --dry-run=client --from-env-file=.env -o yaml | \
+kubeseal \
+    --controller-name=sealed-secrets \
+    --controller-namespace=<namespace> \
+    --format yaml --cert publicKey.pem > sealedsecret.yaml
+```
 
-https://github.com/bitnami-labs/sealed-secrets#installation-from-source
+The files `sealedsecret.yaml` AND `publicKey.pem` can be pushed to git, and since it is asymetrically encrypted, only the Sealed Secrets operator on Kubernetes can decrypt it!
+
+
 
 https://github.com/kubernetes/kubernetes/issues/54918
 
@@ -236,3 +252,7 @@ https://helm.sh/docs/topics/charts/
 1. [A Solution to AWS ECR Image Pull Secrets](https://github.com/k3s-io/k3s/issues/1427#issuecomment-781309205)
 1. [GitOps - Introduction](https://www.gitops.tech/)
 1. [Kubeadm troubleshooting guide](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/troubleshooting-kubeadm/)
+1. [RedHat GitOps](https://cloud.redhat.com/blog/gitops-secret-management)
+1. [Kustomizations for Sealed-Secrets](https://github.com/raif-ahmed/oc4-learn/blob/master/secret-managment/sealed-secrets/base/kustomization.yaml)
+1. [The Sealed Secrets package on ArtifactHub](https://artifacthub.io/packages/helm/bitnami-labs/sealed-secrets)
+1. [Sealed Secrets on GitHub](https://github.com/bitnami-labs/sealed-secrets/releases) with [Kubeseal installation instructions](https://github.com/bitnami-labs/sealed-secrets#installation-from-source)
