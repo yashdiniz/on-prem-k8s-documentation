@@ -34,6 +34,10 @@ https://itnext.io/bare-metal-kubernetes-with-kubeadm-nginx-ingress-controller-an
 
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/
+
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
+
 https://stackoverflow.com/questions/48119650/helm-x509-certificate-signed-by-unknown-authority
 
 https://discuss.kubernetes.io/t/the-connection-to-the-server-localhost-8080-was-refused-did-you-specify-the-right-host-or-port/1464/4

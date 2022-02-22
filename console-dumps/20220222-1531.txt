@@ -1,0 +1,185 @@
+spintly@spintly-PowerEdge-T40:~$ cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+> br_netfilter
+> EOF
+br_netfilter
+spintly@spintly-PowerEdge-T40:~$ 
+spintly@spintly-PowerEdge-T40:~$ cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+> net.bridge.bridge-nf-call-ip6tables = 1
+> net.bridge.bridge-nf-call-iptables = 1
+> EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+spintly@spintly-PowerEdge-T40:~$ sudo sysctl --system
+* Applying /etc/sysctl.d/10-console-messages.conf ...
+kernel.printk = 4 4 1 7
+* Applying /etc/sysctl.d/10-ipv6-privacy.conf ...
+net.ipv6.conf.all.use_tempaddr = 2
+net.ipv6.conf.default.use_tempaddr = 2
+* Applying /etc/sysctl.d/10-kernel-hardening.conf ...
+kernel.kptr_restrict = 1
+* Applying /etc/sysctl.d/10-link-restrictions.conf ...
+fs.protected_hardlinks = 1
+fs.protected_symlinks = 1
+* Applying /etc/sysctl.d/10-magic-sysrq.conf ...
+kernel.sysrq = 176
+* Applying /etc/sysctl.d/10-network-security.conf ...
+net.ipv4.conf.default.rp_filter = 2
+net.ipv4.conf.all.rp_filter = 2
+* Applying /etc/sysctl.d/10-ptrace.conf ...
+kernel.yama.ptrace_scope = 1
+* Applying /etc/sysctl.d/10-zeropage.conf ...
+vm.mmap_min_addr = 65536
+* Applying /usr/lib/sysctl.d/30-tracker.conf ...
+fs.inotify.max_user_watches = 65536
+* Applying /usr/lib/sysctl.d/50-default.conf ...
+net.ipv4.conf.default.promote_secondaries = 1
+sysctl: setting key "net.ipv4.conf.all.promote_secondaries": Invalid argument
+net.ipv4.ping_group_range = 0 2147483647
+net.core.default_qdisc = fq_codel
+fs.protected_regular = 1
+fs.protected_fifos = 1
+* Applying /usr/lib/sysctl.d/50-pid-max.conf ...
+kernel.pid_max = 4194304
+* Applying /etc/sysctl.d/99-sysctl.conf ...
+* Applying /etc/sysctl.d/k8s.conf ...
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+* Applying /usr/lib/sysctl.d/protect-links.conf ...
+fs.protected_fifos = 1
+fs.protected_hardlinks = 1
+fs.protected_regular = 2
+fs.protected_symlinks = 1
+* Applying /etc/sysctl.conf ...
+spintly@spintly-PowerEdge-T40:~$ telnet 127.0.0.1 6443
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+GET /healthz
+HTTP/1.0 400 Bad Request
+
+Client sent an HTTP request to an HTTPS server.
+Connection closed by foreign host.
+spintly@spintly-PowerEdge-T40:~$ sudo apt-get update
+Hit:1 http://in.archive.ubuntu.com/ubuntu focal InRelease                                                       
+Get:2 http://in.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]                                      
+Get:3 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]                                  
+Hit:4 https://download.docker.com/linux/ubuntu focal InRelease                                                         
+Get:5 http://in.archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]   
+Get:6 http://security.ubuntu.com/ubuntu focal-security/main i386 Packages [381 kB]    
+Get:7 http://in.archive.ubuntu.com/ubuntu focal-updates/main i386 Packages [607 kB]     
+Get:8 http://in.archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1,598 kB]                      
+Get:9 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [1,263 kB]
+Get:10 http://in.archive.ubuntu.com/ubuntu focal-updates/main Translation-en [306 kB]                                                                                                                             
+Get:11 http://security.ubuntu.com/ubuntu focal-security/main Translation-en [221 kB]                                                                                                                              
+Get:12 http://in.archive.ubuntu.com/ubuntu focal-updates/main amd64 DEP-11 Metadata [279 kB]                                                                                                                      
+Get:13 http://in.archive.ubuntu.com/ubuntu focal-updates/main amd64 c-n-f Metadata [14.7 kB]                                                                                                                      
+Get:14 http://security.ubuntu.com/ubuntu focal-security/main amd64 DEP-11 Metadata [40.7 kB]                                                                                                                      
+Get:15 http://in.archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages [818 kB]                                                                                                                       
+Get:16 http://in.archive.ubuntu.com/ubuntu focal-updates/restricted Translation-en [116 kB]                                                                                                                       
+Get:17 http://security.ubuntu.com/ubuntu focal-security/main amd64 c-n-f Metadata [9,556 B]                                                                                                                       
+Get:18 http://in.archive.ubuntu.com/ubuntu focal-updates/universe i386 Packages [668 kB]                                                                                                                          
+Get:19 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [764 kB]                                                                                                                        
+Get:20 http://in.archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [904 kB]                                                                                                                         
+Get:21 http://security.ubuntu.com/ubuntu focal-security/restricted Translation-en [109 kB]                                                                                                                        
+Get:22 http://in.archive.ubuntu.com/ubuntu focal-updates/universe Translation-en [201 kB]                                                                                                                         
+Get:23 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [679 kB]                                                                                                                          
+Get:24 http://in.archive.ubuntu.com/ubuntu focal-updates/universe amd64 DEP-11 Metadata [391 kB]                                                                                                                  
+Get:25 http://in.archive.ubuntu.com/ubuntu focal-updates/universe amd64 c-n-f Metadata [20.1 kB]                                                                                                                  
+Get:26 http://in.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 DEP-11 Metadata [940 B]                                                                                                                 
+Get:27 http://in.archive.ubuntu.com/ubuntu focal-backports/main amd64 DEP-11 Metadata [7,980 B]                                                                                                                   
+Get:28 http://in.archive.ubuntu.com/ubuntu focal-backports/universe amd64 DEP-11 Metadata [23.8 kB]                                                                                                               
+Get:29 http://security.ubuntu.com/ubuntu focal-security/universe i386 Packages [534 kB]                                                                                                                           
+Get:30 http://security.ubuntu.com/ubuntu focal-security/universe Translation-en [116 kB]                                                                                                                          
+Get:31 http://security.ubuntu.com/ubuntu focal-security/universe amd64 DEP-11 Metadata [66.6 kB]                                                                                                                  
+Get:32 http://security.ubuntu.com/ubuntu focal-security/universe amd64 c-n-f Metadata [13.1 kB]                                                                                                                   
+Get:33 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 DEP-11 Metadata [2,464 B]                                                                                                                
+Fetched 10.5 MB in 14s (733 kB/s)                                                                                                                                                                                 
+Reading package lists... Done
+spintly@spintly-PowerEdge-T40:~$ sudo apt-get install -y apt-transport-https ca-certificates curl
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+ca-certificates is already the newest version (20210119~20.04.2).
+curl is already the newest version (7.68.0-1ubuntu2.7).
+apt-transport-https is already the newest version (2.0.6).
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+spintly@spintly-PowerEdge-T40:~$ sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+spintly@spintly-PowerEdge-T40:~$ 
+spintly@spintly-PowerEdge-T40:~$ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+spintly@spintly-PowerEdge-T40:~$ sudo apt-get update
+Hit:1 http://in.archive.ubuntu.com/ubuntu focal InRelease
+0% [Waiting for headers] [Connecting to download.docker.com] [Connected to apt.kubernetes.io (34.107.204.206)]
+Hit:2 http://in.archive.ubuntu.com/ubuntu focal-updates InRelease                                             
+Hit:3 http://in.archive.ubuntu.com/ubuntu focal-backports InRelease                                           
+Hit:4 http://security.ubuntu.com/ubuntu focal-security InRelease                                              
+Hit:5 https://download.docker.com/linux/ubuntu focal InRelease                                    
+Get:6 https://packages.cloud.google.com/apt kubernetes-xenial InRelease [9,383 B]
+Get:7 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 Packages [53.9 kB]
+Fetched 63.3 kB in 2s (33.2 kB/s)
+Reading package lists... Done
+spintly@spintly-PowerEdge-T40:~$ sudo apt-get install -y kubelet kubeadm kubectl
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  conntrack cri-tools ebtables ethtool kubernetes-cni socat
+Suggested packages:
+  nftables
+The following NEW packages will be installed:
+  conntrack cri-tools ebtables ethtool kubeadm kubectl kubelet kubernetes-cni socat
+0 upgraded, 9 newly installed, 0 to remove and 1 not upgraded.
+Need to get 73.7 MB of archives.
+After this operation, 321 MB of additional disk space will be used.
+Get:1 http://in.archive.ubuntu.com/ubuntu focal/main amd64 conntrack amd64 1:1.4.5-2 [30.3 kB]
+Get:2 http://in.archive.ubuntu.com/ubuntu focal/main amd64 ebtables amd64 2.0.11-3build1 [80.3 kB]
+Get:4 http://in.archive.ubuntu.com/ubuntu focal/main amd64 ethtool amd64 1:5.4-1 [134 kB]                
+Get:3 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 cri-tools amd64 1.19.0-00 [11.2 MB]     
+Get:6 http://in.archive.ubuntu.com/ubuntu focal/main amd64 socat amd64 1.7.3.3-2 [323 kB]                       
+Get:5 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 kubernetes-cni amd64 0.8.7-00 [25.0 MB]
+Get:7 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 kubelet amd64 1.23.4-00 [19.5 MB]                                                                                                        
+Get:8 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 kubectl amd64 1.23.4-00 [8,927 kB]                                                                                                       
+Get:9 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 kubeadm amd64 1.23.4-00 [8,583 kB]                                                                                                       
+Fetched 73.7 MB in 42s (1,744 kB/s)                                                                                                                                                                               
+Selecting previously unselected package conntrack.
+(Reading database ... 230522 files and directories currently installed.)
+Preparing to unpack .../0-conntrack_1%3a1.4.5-2_amd64.deb ...
+Unpacking conntrack (1:1.4.5-2) ...
+Selecting previously unselected package cri-tools.
+Preparing to unpack .../1-cri-tools_1.19.0-00_amd64.deb ...
+Unpacking cri-tools (1.19.0-00) ...
+Selecting previously unselected package ebtables.
+Preparing to unpack .../2-ebtables_2.0.11-3build1_amd64.deb ...
+Unpacking ebtables (2.0.11-3build1) ...
+Selecting previously unselected package ethtool.
+Preparing to unpack .../3-ethtool_1%3a5.4-1_amd64.deb ...
+Unpacking ethtool (1:5.4-1) ...
+Selecting previously unselected package kubernetes-cni.
+Preparing to unpack .../4-kubernetes-cni_0.8.7-00_amd64.deb ...
+Unpacking kubernetes-cni (0.8.7-00) ...
+Selecting previously unselected package socat.
+Preparing to unpack .../5-socat_1.7.3.3-2_amd64.deb ...
+Unpacking socat (1.7.3.3-2) ...
+Selecting previously unselected package kubelet.
+Preparing to unpack .../6-kubelet_1.23.4-00_amd64.deb ...
+Unpacking kubelet (1.23.4-00) ...
+Selecting previously unselected package kubectl.
+Preparing to unpack .../7-kubectl_1.23.4-00_amd64.deb ...
+Unpacking kubectl (1.23.4-00) ...
+Selecting previously unselected package kubeadm.
+Preparing to unpack .../8-kubeadm_1.23.4-00_amd64.deb ...
+Unpacking kubeadm (1.23.4-00) ...
+Setting up conntrack (1:1.4.5-2) ...
+Setting up kubectl (1.23.4-00) ...
+Setting up ebtables (2.0.11-3build1) ...
+Setting up socat (1.7.3.3-2) ...
+Setting up cri-tools (1.19.0-00) ...
+Setting up kubernetes-cni (0.8.7-00) ...
+Setting up ethtool (1:5.4-1) ...
+Setting up kubelet (1.23.4-00) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /lib/systemd/system/kubelet.service.
+Setting up kubeadm (1.23.4-00) ...
+Processing triggers for man-db (2.9.1-1) ...
+spintly@spintly-PowerEdge-T40:~$ 
+
