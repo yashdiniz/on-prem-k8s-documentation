@@ -1,0 +1,1002 @@
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ git pull
+remote: Enumerating objects: 13, done.
+remote: Counting objects: 100% (13/13), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 8 (delta 4), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (8/8), 7.30 KiB | 17.00 KiB/s, done.
+From github.com:yashdiniz/on-prem-k8s-documentation
+   cc461dc..a04c0a4  master     -> origin/master
+Updating cc461dc..a04c0a4
+Fast-forward
+ console-dumps/20220222-1531.txt | 292 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ kubeadm/kubeadm-config.yaml     |   2 +-
+ 2 files changed, 291 insertions(+), 3 deletions(-)
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ kubeadm init --config kubeadm/kubeadm-config.yaml 
+[init] Using Kubernetes version: v1.23.0
+[preflight] Running pre-flight checks
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR IsPrivilegedUser]: user is not running as root
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm init --config kubeadm/kubeadm-config.yaml 
+[init] Using Kubernetes version: v1.23.0
+[preflight] Running pre-flight checks
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR FileAvailable--etc-kubernetes-manifests-kube-apiserver.yaml]: /etc/kubernetes/manifests/kube-apiserver.yaml already exists
+	[ERROR FileAvailable--etc-kubernetes-manifests-kube-controller-manager.yaml]: /etc/kubernetes/manifests/kube-controller-manager.yaml already exists
+	[ERROR FileAvailable--etc-kubernetes-manifests-kube-scheduler.yaml]: /etc/kubernetes/manifests/kube-scheduler.yaml already exists
+	[ERROR FileAvailable--etc-kubernetes-manifests-etcd.yaml]: /etc/kubernetes/manifests/etcd.yaml already exists
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm remove --config kubeadm/kubeadm-config.yaml 
+unknown command "remove" for "kubeadm"
+To see the stack trace of this error execute with --v=5 or higher
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm  --config kubeadm/kubeadm-config.yaml 
+assets/        console-dumps/ .git/          .gitignore     k8s/           kubeadm/       README.md      
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm help --config kubeadm/kubeadm-config.yaml 
+unknown flag: --config
+To see the stack trace of this error execute with --v=5 or higher
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm help
+
+
+    ┌──────────────────────────────────────────────────────────┐
+    │ KUBEADM                                                  │
+    │ Easily bootstrap a secure Kubernetes cluster             │
+    │                                                          │
+    │ Please give us feedback at:                              │
+    │ https://github.com/kubernetes/kubeadm/issues             │
+    └──────────────────────────────────────────────────────────┘
+
+Example usage:
+
+    Create a two-machine cluster with one control-plane node
+    (which controls the cluster), and one worker node
+    (where your workloads, like Pods and Deployments run).
+
+    ┌──────────────────────────────────────────────────────────┐
+    │ On the first machine:                                    │
+    ├──────────────────────────────────────────────────────────┤
+    │ control-plane# kubeadm init                              │
+    └──────────────────────────────────────────────────────────┘
+
+    ┌──────────────────────────────────────────────────────────┐
+    │ On the second machine:                                   │
+    ├──────────────────────────────────────────────────────────┤
+    │ worker# kubeadm join <arguments-returned-from-init>      │
+    └──────────────────────────────────────────────────────────┘
+
+    You can then repeat the second step on as many other machines as you like.
+
+Usage:
+  kubeadm [command]
+
+Available Commands:
+  certs       Commands related to handling kubernetes certificates
+  completion  Output shell completion code for the specified shell (bash or zsh)
+  config      Manage configuration for a kubeadm cluster persisted in a ConfigMap in the cluster
+  help        Help about any command
+  init        Run this command in order to set up the Kubernetes control plane
+  join        Run this on any machine you wish to join an existing cluster
+  kubeconfig  Kubeconfig file utilities
+  reset       Performs a best effort revert of changes made to this host by 'kubeadm init' or 'kubeadm join'
+  token       Manage bootstrap tokens
+  upgrade     Upgrade your cluster smoothly to a newer version with this command
+  version     Print the version of kubeadm
+
+Flags:
+      --add-dir-header           If true, adds the file directory to the header of the log messages
+  -h, --help                     help for kubeadm
+      --log-file string          If non-empty, use this log file
+      --log-file-max-size uint   Defines the maximum size a log file can grow to. Unit is megabytes. If the value is 0, the maximum file size is unlimited. (default 1800)
+      --one-output               If true, only write logs to their native severity level (vs also writing to each lower severity level)
+      --rootfs string            [EXPERIMENTAL] The path to the 'real' host root filesystem.
+      --skip-headers             If true, avoid header prefixes in the log messages
+      --skip-log-headers         If true, avoid headers when opening log files
+  -v, --v Level                  number for the log level verbosity
+
+Additional help topics:
+  kubeadm alpha      Kubeadm experimental sub-commands
+
+Use "kubeadm [command] --help" for more information about a command.
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm reset
+[reset] Reading configuration from the cluster...
+[reset] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+W0222 16:25:25.823192   42756 reset.go:101] [reset] Unable to fetch the kubeadm-config ConfigMap from cluster: failed to get config map: Get "https://172.20.10.134:6443/api/v1/namespaces/kube-system/configmaps/kubeadm-config?timeout=10s": dial tcp 172.20.10.134:6443: connect: connection refused
+[reset] WARNING: Changes made to this host by 'kubeadm init' or 'kubeadm join' will be reverted.
+[reset] Are you sure you want to proceed? [y/N]: y
+[preflight] Running pre-flight checks
+W0222 16:29:18.185753   42756 removeetcdmember.go:80] [reset] No kubeadm config, using etcd pod spec to get data directory
+[reset] Stopping the kubelet service
+[reset] Unmounting mounted directories in "/var/lib/kubelet"
+[reset] Deleting contents of config directories: [/etc/kubernetes/manifests /etc/kubernetes/pki]
+[reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
+[reset] Deleting contents of stateful directories: [/var/lib/etcd /var/lib/kubelet /var/lib/dockershim /var/run/kubernetes /var/lib/cni]
+
+The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
+
+The reset process does not reset or clean up iptables rules or IPVS tables.
+If you wish to reset iptables, you must do so manually by using the "iptables" command.
+
+If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
+to reset your system's IPVS tables.
+
+The reset process does not clean your kubeconfig files and you must remove them manually.
+Please, check the contents of the $HOME/.kube/config file.
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ ipvsadm
+
+Command 'ipvsadm' not found, but can be installed with:
+
+sudo apt install ipvsadm
+
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo iptables --list
+Chain INPUT (policy DROP)
+target     prot opt source               destination         
+ufw-before-logging-input  all  --  anywhere             anywhere            
+ufw-before-input  all  --  anywhere             anywhere            
+ufw-after-input  all  --  anywhere             anywhere            
+ufw-after-logging-input  all  --  anywhere             anywhere            
+ufw-reject-input  all  --  anywhere             anywhere            
+ufw-track-input  all  --  anywhere             anywhere            
+
+Chain FORWARD (policy DROP)
+target     prot opt source               destination         
+DOCKER-USER  all  --  anywhere             anywhere            
+DOCKER-ISOLATION-STAGE-1  all  --  anywhere             anywhere            
+ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+DOCKER     all  --  anywhere             anywhere            
+ACCEPT     all  --  anywhere             anywhere            
+ACCEPT     all  --  anywhere             anywhere            
+ufw-before-logging-forward  all  --  anywhere             anywhere            
+ufw-before-forward  all  --  anywhere             anywhere            
+ufw-after-forward  all  --  anywhere             anywhere            
+ufw-after-logging-forward  all  --  anywhere             anywhere            
+ufw-reject-forward  all  --  anywhere             anywhere            
+ufw-track-forward  all  --  anywhere             anywhere            
+ACCEPT     all  --  10.42.0.0/16         anywhere            
+ACCEPT     all  --  anywhere             10.42.0.0/16        
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+ufw-before-logging-output  all  --  anywhere             anywhere            
+ufw-before-output  all  --  anywhere             anywhere            
+ufw-after-output  all  --  anywhere             anywhere            
+ufw-after-logging-output  all  --  anywhere             anywhere            
+ufw-reject-output  all  --  anywhere             anywhere            
+ufw-track-output  all  --  anywhere             anywhere            
+
+Chain DOCKER (1 references)
+target     prot opt source               destination         
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+target     prot opt source               destination         
+DOCKER-ISOLATION-STAGE-2  all  --  anywhere             anywhere            
+RETURN     all  --  anywhere             anywhere            
+
+Chain DOCKER-ISOLATION-STAGE-2 (1 references)
+target     prot opt source               destination         
+DROP       all  --  anywhere             anywhere            
+RETURN     all  --  anywhere             anywhere            
+
+Chain DOCKER-USER (1 references)
+target     prot opt source               destination         
+RETURN     all  --  anywhere             anywhere            
+
+Chain ufw-after-forward (1 references)
+target     prot opt source               destination         
+
+Chain ufw-after-input (1 references)
+target     prot opt source               destination         
+ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:netbios-ns
+ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:netbios-dgm
+ufw-skip-to-policy-input  tcp  --  anywhere             anywhere             tcp dpt:netbios-ssn
+ufw-skip-to-policy-input  tcp  --  anywhere             anywhere             tcp dpt:microsoft-ds
+ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:bootps
+ufw-skip-to-policy-input  udp  --  anywhere             anywhere             udp dpt:bootpc
+ufw-skip-to-policy-input  all  --  anywhere             anywhere             ADDRTYPE match dst-type BROADCAST
+
+Chain ufw-after-logging-forward (1 references)
+target     prot opt source               destination         
+LOG        all  --  anywhere             anywhere             limit: avg 3/min burst 10 LOG level warning prefix "[UFW BLOCK] "
+
+Chain ufw-after-logging-input (1 references)
+target     prot opt source               destination         
+LOG        all  --  anywhere             anywhere             limit: avg 3/min burst 10 LOG level warning prefix "[UFW BLOCK] "
+
+Chain ufw-after-logging-output (1 references)
+target     prot opt source               destination         
+
+Chain ufw-after-output (1 references)
+target     prot opt source               destination         
+
+Chain ufw-before-forward (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+ACCEPT     icmp --  anywhere             anywhere             icmp destination-unreachable
+ACCEPT     icmp --  anywhere             anywhere             icmp time-exceeded
+ACCEPT     icmp --  anywhere             anywhere             icmp parameter-problem
+ACCEPT     icmp --  anywhere             anywhere             icmp echo-request
+ufw-user-forward  all  --  anywhere             anywhere            
+
+Chain ufw-before-input (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  anywhere             anywhere            
+ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+ufw-logging-deny  all  --  anywhere             anywhere             ctstate INVALID
+DROP       all  --  anywhere             anywhere             ctstate INVALID
+ACCEPT     icmp --  anywhere             anywhere             icmp destination-unreachable
+ACCEPT     icmp --  anywhere             anywhere             icmp time-exceeded
+ACCEPT     icmp --  anywhere             anywhere             icmp parameter-problem
+ACCEPT     icmp --  anywhere             anywhere             icmp echo-request
+ACCEPT     udp  --  anywhere             anywhere             udp spt:bootps dpt:bootpc
+ufw-not-local  all  --  anywhere             anywhere            
+ACCEPT     udp  --  anywhere             224.0.0.251          udp dpt:mdns
+ACCEPT     udp  --  anywhere             239.255.255.250      udp dpt:1900
+ufw-user-input  all  --  anywhere             anywhere            
+
+Chain ufw-before-logging-forward (1 references)
+target     prot opt source               destination         
+
+Chain ufw-before-logging-input (1 references)
+target     prot opt source               destination         
+
+Chain ufw-before-logging-output (1 references)
+target     prot opt source               destination         
+
+Chain ufw-before-output (1 references)
+target     prot opt source               destination         
+ACCEPT     all  --  anywhere             anywhere            
+ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+ufw-user-output  all  --  anywhere             anywhere            
+
+Chain ufw-logging-allow (0 references)
+target     prot opt source               destination         
+LOG        all  --  anywhere             anywhere             limit: avg 3/min burst 10 LOG level warning prefix "[UFW ALLOW] "
+
+Chain ufw-logging-deny (2 references)
+target     prot opt source               destination         
+RETURN     all  --  anywhere             anywhere             ctstate INVALID limit: avg 3/min burst 10
+LOG        all  --  anywhere             anywhere             limit: avg 3/min burst 10 LOG level warning prefix "[UFW BLOCK] "
+
+Chain ufw-not-local (1 references)
+target     prot opt source               destination         
+RETURN     all  --  anywhere             anywhere             ADDRTYPE match dst-type LOCAL
+RETURN     all  --  anywhere             anywhere             ADDRTYPE match dst-type MULTICAST
+RETURN     all  --  anywhere             anywhere             ADDRTYPE match dst-type BROADCAST
+ufw-logging-deny  all  --  anywhere             anywhere             limit: avg 3/min burst 10
+DROP       all  --  anywhere             anywhere            
+
+Chain ufw-reject-forward (1 references)
+target     prot opt source               destination         
+
+Chain ufw-reject-input (1 references)
+target     prot opt source               destination         
+
+Chain ufw-reject-output (1 references)
+target     prot opt source               destination         
+
+Chain ufw-skip-to-policy-forward (0 references)
+target     prot opt source               destination         
+DROP       all  --  anywhere             anywhere            
+
+Chain ufw-skip-to-policy-input (7 references)
+target     prot opt source               destination         
+DROP       all  --  anywhere             anywhere            
+
+Chain ufw-skip-to-policy-output (0 references)
+target     prot opt source               destination         
+ACCEPT     all  --  anywhere             anywhere            
+
+Chain ufw-track-forward (1 references)
+target     prot opt source               destination         
+
+Chain ufw-track-input (1 references)
+target     prot opt source               destination         
+
+Chain ufw-track-output (1 references)
+target     prot opt source               destination         
+ACCEPT     tcp  --  anywhere             anywhere             ctstate NEW
+ACCEPT     udp  --  anywhere             anywhere             ctstate NEW
+
+Chain ufw-user-forward (1 references)
+target     prot opt source               destination         
+
+Chain ufw-user-input (1 references)
+target     prot opt source               destination         
+ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:ssh
+ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:42000
+ACCEPT     udp  --  anywhere             anywhere             udp dpt:42000
+ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:42001
+ACCEPT     udp  --  anywhere             anywhere             udp dpt:42001
+
+Chain ufw-user-limit (0 references)
+target     prot opt source               destination         
+LOG        all  --  anywhere             anywhere             limit: avg 3/min burst 5 LOG level warning prefix "[UFW LIMIT BLOCK] "
+REJECT     all  --  anywhere             anywhere             reject-with icmp-port-unreachable
+
+Chain ufw-user-limit-accept (0 references)
+target     prot opt source               destination         
+ACCEPT     all  --  anywhere             anywhere            
+
+Chain ufw-user-logging-forward (0 references)
+target     prot opt source               destination         
+
+Chain ufw-user-logging-input (0 references)
+target     prot opt source               destination         
+
+Chain ufw-user-logging-output (0 references)
+target     prot opt source               destination         
+
+Chain ufw-user-output (1 references)
+target     prot opt source               destination         
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ cat /etc/ne
+netplan/             network/             networkd-dispatcher/ networks             newt/                
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ cat /etc/c
+ca-certificates/               calendar/                      containerd/                    cron.daily/                    crontab                        cupshelpers/
+ca-certificates.conf           chatscripts/                   cracklib/                      cron.hourly/                   cron.weekly/                   
+ca-certificates.conf.dpkg-old  console-setup/                 cron.d/                        cron.monthly/                  cups/                          
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ cat /etc/
+Display all 231 possibilities? (y or n)
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo kubeadm init --config kubeadm/kubeadm-config.yaml 
+[init] Using Kubernetes version: v1.23.0
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local spintly-poweredge-t40] and IPs [10.96.0.1 172.20.10.134]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [localhost spintly-poweredge-t40] and IPs [172.20.10.134 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [localhost spintly-poweredge-t40] and IPs [172.20.10.134 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[apiclient] All control plane components are healthy after 29.007397 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config-1.23" in namespace kube-system with the configuration for the kubelets in the cluster
+NOTE: The "kubelet-config-1.23" naming of the kubelet ConfigMap is deprecated. Once the UnversionedKubeletConfigMap feature gate graduates to Beta the default name will become just "kubelet-config". Kubeadm upgrade will handle this transition transparently.
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node spintly-poweredge-t40 as control-plane by adding the labels: [node-role.kubernetes.io/master(deprecated) node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node spintly-poweredge-t40 as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+[bootstrap-token] Using token: svfhao.orm2nd169pxun1fi
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.20.10.134:6443 --token svfhao.orm2nd169pxun1fi \
+	--discovery-token-ca-cert-hash sha256:2a285a091d59d348f2f1f62ee62f822ad57713eaf15c3f09622f19c7de9ebd7a 
+
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo mkdir -p /etc/cni/net.d
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation$ sudo chmod -R +r /etc/cni/net.d
+
+
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n kube-system
+NAME                                            READY   STATUS    RESTARTS       AGE
+calico-kube-controllers-566dc76669-wtswk        1/1     Running   0              29m
+canal-zkr82                                     2/2     Running   12 (56s ago)   29m
+coredns-64897985d-kbpxk                         1/1     Running   0              74m
+coredns-64897985d-zjgtg                         0/1     Running   0              74m
+etcd-spintly-poweredge-t40                      1/1     Running   0              74m
+kube-apiserver-spintly-poweredge-t40            1/1     Running   0              74m
+kube-controller-manager-spintly-poweredge-t40   1/1     Running   0              64s
+kube-proxy-ffpjm                                1/1     Running   0              74m
+kube-scheduler-spintly-poweredge-t40            1/1     Running   0              74m
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd install | kubectl apply -f -
+namespace/linkerd created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-identity created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-identity created
+serviceaccount/linkerd-identity created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-destination created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-destination created
+serviceaccount/linkerd-destination created
+secret/linkerd-sp-validator-k8s-tls created
+validatingwebhookconfiguration.admissionregistration.k8s.io/linkerd-sp-validator-webhook-config created
+secret/linkerd-policy-validator-k8s-tls created
+validatingwebhookconfiguration.admissionregistration.k8s.io/linkerd-policy-validator-webhook-config created
+clusterrole.rbac.authorization.k8s.io/linkerd-policy created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-destination-policy created
+role.rbac.authorization.k8s.io/linkerd-heartbeat created
+rolebinding.rbac.authorization.k8s.io/linkerd-heartbeat created
+clusterrole.rbac.authorization.k8s.io/linkerd-heartbeat created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-heartbeat created
+serviceaccount/linkerd-heartbeat created
+customresourcedefinition.apiextensions.k8s.io/servers.policy.linkerd.io created
+customresourcedefinition.apiextensions.k8s.io/serverauthorizations.policy.linkerd.io created
+customresourcedefinition.apiextensions.k8s.io/serviceprofiles.linkerd.io created
+customresourcedefinition.apiextensions.k8s.io/trafficsplits.split.smi-spec.io created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-proxy-injector created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-proxy-injector created
+serviceaccount/linkerd-proxy-injector created
+secret/linkerd-proxy-injector-k8s-tls created
+mutatingwebhookconfiguration.admissionregistration.k8s.io/linkerd-proxy-injector-webhook-config created
+configmap/linkerd-config created
+secret/linkerd-identity-issuer created
+configmap/linkerd-identity-trust-roots created
+service/linkerd-identity created
+service/linkerd-identity-headless created
+Warning: spec.template.spec.nodeSelector[beta.kubernetes.io/os]: deprecated since v1.14; use "kubernetes.io/os" instead
+deployment.apps/linkerd-identity created
+service/linkerd-dst created
+service/linkerd-dst-headless created
+service/linkerd-sp-validator created
+service/linkerd-policy created
+service/linkerd-policy-validator created
+deployment.apps/linkerd-destination created
+Warning: batch/v1beta1 CronJob is deprecated in v1.21+, unavailable in v1.25+; use batch/v1 CronJob
+Warning: spec.jobTemplate.spec.template.spec.nodeSelector[beta.kubernetes.io/os]: deprecated since v1.14; use "kubernetes.io/os" instead
+cronjob.batch/linkerd-heartbeat created
+deployment.apps/linkerd-proxy-injector created
+service/linkerd-proxy-injector created
+secret/linkerd-config-overrides created
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd check
+Linkerd core checks
+===================
+
+kubernetes-api
+--------------
+√ can initialize the client
+√ can query the Kubernetes API
+
+kubernetes-version
+------------------
+√ is running the minimum Kubernetes API version
+√ is running the minimum kubectl version
+
+linkerd-existence
+-----------------
+√ 'linkerd-config' config map exists
+√ heartbeat ServiceAccount exist
+√ control plane replica sets are ready
+‼ no unschedulable pods
+    linkerd-destination-6ccd8c6d67-zs78n: 0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+    see https://linkerd.io/2.11/checks/#l5d-existence-unschedulable-pods for hints
+× control plane pods are ready
+    No running pods for "linkerd-destination"
+    see https://linkerd.io/2.11/checks/#l5d-api-control-ready for hints
+
+Status check results are ×
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd check
+Linkerd core checks
+===================
+
+kubernetes-api
+--------------
+√ can initialize the client
+√ can query the Kubernetes API
+
+kubernetes-version
+------------------
+√ is running the minimum Kubernetes API version
+√ is running the minimum kubectl version
+
+linkerd-existence
+-----------------
+√ 'linkerd-config' config map exists
+√ heartbeat ServiceAccount exist
+√ control plane replica sets are ready
+- linkerd-destination-6ccd8c6d67-zs78n: 0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate. ^C
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n kube-system
+NAME                                            READY   STATUS    RESTARTS       AGE
+calico-kube-controllers-566dc76669-wtswk        1/1     Running   0              48m
+canal-zkr82                                     2/2     Running   12 (20m ago)   48m
+coredns-64897985d-kbpxk                         1/1     Running   0              94m
+coredns-64897985d-zjgtg                         1/1     Running   0              94m
+etcd-spintly-poweredge-t40                      1/1     Running   0              94m
+kube-apiserver-spintly-poweredge-t40            1/1     Running   0              94m
+kube-controller-manager-spintly-poweredge-t40   1/1     Running   0              20m
+kube-proxy-ffpjm                                1/1     Running   0              94m
+kube-scheduler-spintly-poweredge-t40            1/1     Running   0              94m
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n linkerd
+NAME                                     READY   STATUS    RESTARTS   AGE
+linkerd-destination-6ccd8c6d67-zs78n     0/4     Pending   0          17m
+linkerd-heartbeat-27425547-h2m7f         0/1     Pending   0          8m42s
+linkerd-identity-54795b9f9f-vzcb9        0/2     Pending   0          18m
+linkerd-proxy-injector-c44857b54-ns728   0/2     Pending   0          17m
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get nodes -o wide
+NAME                    STATUS   ROLES                  AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+spintly-poweredge-t40   Ready    control-plane,master   95m   v1.23.4   172.20.10.134   <none>        Ubuntu 20.04.4 LTS   5.13.0-30-generic   docker://20.10.12
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get 
+apiservices.apiregistration.k8s.io                            flowschemas.flowcontrol.apiserver.k8s.io                      poddisruptionbudgets.policy
+bgpconfigurations.crd.projectcalico.org                       globalnetworkpolicies.crd.projectcalico.org                   pods
+bgppeers.crd.projectcalico.org                                globalnetworksets.crd.projectcalico.org                       podsecuritypolicies.policy
+blockaffinities.crd.projectcalico.org                         horizontalpodautoscalers.autoscaling                          podtemplates
+caliconodestatuses.crd.projectcalico.org                      hostendpoints.crd.projectcalico.org                           priorityclasses.scheduling.k8s.io
+certificatesigningrequests.certificates.k8s.io                ingressclasses.networking.k8s.io                              prioritylevelconfigurations.flowcontrol.apiserver.k8s.io
+clusterinformations.crd.projectcalico.org                     ingresses.networking.k8s.io                                   replicasets.apps
+clusterrolebindings.rbac.authorization.k8s.io                 ipamblocks.crd.projectcalico.org                              replicationcontrollers
+clusterroles.rbac.authorization.k8s.io                        ipamconfigs.crd.projectcalico.org                             resourcequotas
+componentstatuses                                             ipamhandles.crd.projectcalico.org                             rolebindings.rbac.authorization.k8s.io
+configmaps                                                    ippools.crd.projectcalico.org                                 roles.rbac.authorization.k8s.io
+controllerrevisions.apps                                      ipreservations.crd.projectcalico.org                          runtimeclasses.node.k8s.io
+cronjobs.batch                                                jobs.batch                                                    secrets
+csidrivers.storage.k8s.io                                     kubecontrollersconfigurations.crd.projectcalico.org           serverauthorizations.policy.linkerd.io
+csinodes.storage.k8s.io                                       leases.coordination.k8s.io                                    servers.policy.linkerd.io
+csistoragecapacities.storage.k8s.io                           limitranges                                                   serviceaccounts
+customresourcedefinitions.apiextensions.k8s.io                mutatingwebhookconfigurations.admissionregistration.k8s.io    serviceprofiles.linkerd.io
+daemonsets.apps                                               namespaces                                                    services
+deployments.apps                                              networkpolicies.crd.projectcalico.org                         statefulsets.apps
+endpoints                                                     networkpolicies.networking.k8s.io                             storageclasses.storage.k8s.io
+endpointslices.discovery.k8s.io                               networksets.crd.projectcalico.org                             trafficsplits.split.smi-spec.io
+events                                                        nodes                                                         validatingwebhookconfigurations.admissionregistration.k8s.io
+events.events.k8s.io                                          persistentvolumeclaims                                        volumeattachments.storage.k8s.io
+felixconfigurations.crd.projectcalico.org                     persistentvolumes                                             
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get re
+replicasets.apps        replicationcontrollers  resourcequotas          
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get resourcequotas 
+No resources found in default namespace.
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get resourcequotas -o wide
+No resources found in default namespace.
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get resourcequotas -o wide -n linkerd
+No resources found in linkerd namespace.
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n linkerd -o wide
+NAME                                     READY   STATUS    RESTARTS   AGE     IP       NODE     NOMINATED NODE   READINESS GATES
+linkerd-destination-6ccd8c6d67-zs78n     0/4     Pending   0          19m     <none>   <none>   <none>           <none>
+linkerd-heartbeat-27425547-h2m7f         0/1     Pending   0          9m59s   <none>   <none>   <none>           <none>
+linkerd-identity-54795b9f9f-vzcb9        0/2     Pending   0          19m     <none>   <none>   <none>           <none>
+linkerd-proxy-injector-c44857b54-ns728   0/2     Pending   0          19m     <none>   <none>   <none>           <none>
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n kubectl -o wide
+No resources found in kubectl namespace.
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n kube-system -o wide
+NAME                                            READY   STATUS    RESTARTS       AGE   IP              NODE                    NOMINATED NODE   READINESS GATES
+calico-kube-controllers-566dc76669-wtswk        1/1     Running   0              50m   10.244.0.2      spintly-poweredge-t40   <none>           <none>
+canal-zkr82                                     2/2     Running   12 (22m ago)   50m   172.20.10.134   spintly-poweredge-t40   <none>           <none>
+coredns-64897985d-kbpxk                         1/1     Running   0              95m   10.244.0.3      spintly-poweredge-t40   <none>           <none>
+coredns-64897985d-zjgtg                         1/1     Running   0              95m   10.244.0.4      spintly-poweredge-t40   <none>           <none>
+etcd-spintly-poweredge-t40                      1/1     Running   0              96m   172.20.10.134   spintly-poweredge-t40   <none>           <none>
+kube-apiserver-spintly-poweredge-t40            1/1     Running   0              96m   172.20.10.134   spintly-poweredge-t40   <none>           <none>
+kube-controller-manager-spintly-poweredge-t40   1/1     Running   0              22m   172.20.10.134   spintly-poweredge-t40   <none>           <none>
+kube-proxy-ffpjm                                1/1     Running   0              95m   172.20.10.134   spintly-poweredge-t40   <none>           <none>
+kube-scheduler-spintly-poweredge-t40            1/1     Running   0              96m   172.20.10.134   spintly-poweredge-t40   <none>           <none>
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n emojivoto 
+emoji-5dbdd567bd-5jqqd     vote-bot-58b4f5fdb7-6dg4n  voting-5fdcddcfc-999kp     web-67c857998c-lm9xf       
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n emojivoto -o wide
+NAME                        READY   STATUS    RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES
+emoji-5dbdd567bd-5jqqd      0/1     Pending   0          73m   <none>   <none>   <none>           <none>
+vote-bot-58b4f5fdb7-6dg4n   0/1     Pending   0          73m   <none>   <none>   <none>           <none>
+voting-5fdcddcfc-999kp      0/1     Pending   0          73m   <none>   <none>   <none>           <none>
+web-67c857998c-lm9xf        0/1     Pending   0          73m   <none>   <none>   <none>           <none>
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get events -n linkerd
+LAST SEEN   TYPE      REASON              OBJECT                                        MESSAGE
+40s         Warning   FailedScheduling    pod/linkerd-destination-6ccd8c6d67-zs78n      0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+22m         Normal    SuccessfulCreate    replicaset/linkerd-destination-6ccd8c6d67     Created pod: linkerd-destination-6ccd8c6d67-zs78n
+22m         Normal    ScalingReplicaSet   deployment/linkerd-destination                Scaled up replica set linkerd-destination-6ccd8c6d67 to 1
+10s         Warning   FailedScheduling    pod/linkerd-heartbeat-27425547-h2m7f          0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+13m         Normal    SuccessfulCreate    job/linkerd-heartbeat-27425547                Created pod: linkerd-heartbeat-27425547-h2m7f
+13m         Normal    SuccessfulCreate    cronjob/linkerd-heartbeat                     Created job linkerd-heartbeat-27425547
+40s         Warning   FailedScheduling    pod/linkerd-identity-54795b9f9f-vzcb9         0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+22m         Normal    SuccessfulCreate    replicaset/linkerd-identity-54795b9f9f        Created pod: linkerd-identity-54795b9f9f-vzcb9
+22m         Normal    ScalingReplicaSet   deployment/linkerd-identity                   Scaled up replica set linkerd-identity-54795b9f9f to 1
+10s         Warning   FailedScheduling    pod/linkerd-proxy-injector-c44857b54-ns728    0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+22m         Normal    SuccessfulCreate    replicaset/linkerd-proxy-injector-c44857b54   Created pod: linkerd-proxy-injector-c44857b54-ns728
+22m         Normal    ScalingReplicaSet   deployment/linkerd-proxy-injector             Scaled up replica set linkerd-proxy-injector-c44857b54 to 1
+spintly@spintly-PowerEdge-T40:~/Downloads$ for node in $(kubectl get nodes --selector='node-role.kubernetes.io/master' | awk 'NR>1 {print $1}' ) ; do   kubectl taint node $node node-role.kubernetes.io/master- ; done
+node/spintly-poweredge-t40 untainted
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get pods -n emojivoto -o wide
+NAME                        READY   STATUS              RESTARTS   AGE   IP       NODE                    NOMINATED NODE   READINESS GATES
+emoji-5dbdd567bd-5jqqd      0/1     ContainerCreating   0          77m   <none>   spintly-poweredge-t40   <none>           <none>
+vote-bot-58b4f5fdb7-6dg4n   0/1     ContainerCreating   0          77m   <none>   spintly-poweredge-t40   <none>           <none>
+voting-5fdcddcfc-999kp      0/1     ContainerCreating   0          77m   <none>   spintly-poweredge-t40   <none>           <none>
+web-67c857998c-lm9xf        0/1     ContainerCreating   0          77m   <none>   spintly-poweredge-t40   <none>           <none>
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get events -n linkerd
+LAST SEEN   TYPE      REASON              OBJECT                                        MESSAGE
+2m38s       Warning   FailedScheduling    pod/linkerd-destination-6ccd8c6d67-zs78n      0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+74s         Normal    Scheduled           pod/linkerd-destination-6ccd8c6d67-zs78n      Successfully assigned linkerd/linkerd-destination-6ccd8c6d67-zs78n to spintly-poweredge-t40
+61s         Normal    Pulling             pod/linkerd-destination-6ccd8c6d67-zs78n      Pulling image "cr.l5d.io/linkerd/proxy-init:v1.4.0"
+48s         Normal    Pulled              pod/linkerd-destination-6ccd8c6d67-zs78n      Successfully pulled image "cr.l5d.io/linkerd/proxy-init:v1.4.0" in 12.531232393s
+41s         Normal    Created             pod/linkerd-destination-6ccd8c6d67-zs78n      Created container linkerd-init
+40s         Normal    Started             pod/linkerd-destination-6ccd8c6d67-zs78n      Started container linkerd-init
+37s         Normal    Pulling             pod/linkerd-destination-6ccd8c6d67-zs78n      Pulling image "cr.l5d.io/linkerd/proxy:stable-2.11.1"
+25m         Normal    SuccessfulCreate    replicaset/linkerd-destination-6ccd8c6d67     Created pod: linkerd-destination-6ccd8c6d67-zs78n
+25m         Normal    ScalingReplicaSet   deployment/linkerd-destination                Scaled up replica set linkerd-destination-6ccd8c6d67 to 1
+2m8s        Warning   FailedScheduling    pod/linkerd-heartbeat-27425547-h2m7f          0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+74s         Normal    Scheduled           pod/linkerd-heartbeat-27425547-h2m7f          Successfully assigned linkerd/linkerd-heartbeat-27425547-h2m7f to spintly-poweredge-t40
+60s         Normal    Pulling             pod/linkerd-heartbeat-27425547-h2m7f          Pulling image "cr.l5d.io/linkerd/controller:stable-2.11.1"
+34s         Normal    Pulled              pod/linkerd-heartbeat-27425547-h2m7f          Successfully pulled image "cr.l5d.io/linkerd/controller:stable-2.11.1" in 25.995786506s
+31s         Normal    Created             pod/linkerd-heartbeat-27425547-h2m7f          Created container heartbeat
+30s         Normal    Started             pod/linkerd-heartbeat-27425547-h2m7f          Started container heartbeat
+16m         Normal    SuccessfulCreate    job/linkerd-heartbeat-27425547                Created pod: linkerd-heartbeat-27425547-h2m7f
+26s         Normal    Completed           job/linkerd-heartbeat-27425547                Job completed
+16m         Normal    SuccessfulCreate    cronjob/linkerd-heartbeat                     Created job linkerd-heartbeat-27425547
+26s         Normal    SawCompletedJob     cronjob/linkerd-heartbeat                     Saw completed job: linkerd-heartbeat-27425547, status: Complete
+25s         Normal    SuccessfulDelete    cronjob/linkerd-heartbeat                     Deleted job linkerd-heartbeat-27425547
+98s         Warning   FailedScheduling    pod/linkerd-identity-54795b9f9f-vzcb9         0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+74s         Normal    Scheduled           pod/linkerd-identity-54795b9f9f-vzcb9         Successfully assigned linkerd/linkerd-identity-54795b9f9f-vzcb9 to spintly-poweredge-t40
+56s         Normal    Pulling             pod/linkerd-identity-54795b9f9f-vzcb9         Pulling image "cr.l5d.io/linkerd/proxy-init:v1.4.0"
+25m         Normal    SuccessfulCreate    replicaset/linkerd-identity-54795b9f9f        Created pod: linkerd-identity-54795b9f9f-vzcb9
+25m         Normal    ScalingReplicaSet   deployment/linkerd-identity                   Scaled up replica set linkerd-identity-54795b9f9f to 1
+98s         Warning   FailedScheduling    pod/linkerd-proxy-injector-c44857b54-ns728    0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+74s         Normal    Scheduled           pod/linkerd-proxy-injector-c44857b54-ns728    Successfully assigned linkerd/linkerd-proxy-injector-c44857b54-ns728 to spintly-poweredge-t40
+58s         Normal    Pulling             pod/linkerd-proxy-injector-c44857b54-ns728    Pulling image "cr.l5d.io/linkerd/proxy-init:v1.4.0"
+31s         Normal    Pulled              pod/linkerd-proxy-injector-c44857b54-ns728    Successfully pulled image "cr.l5d.io/linkerd/proxy-init:v1.4.0" in 27.173008493s
+27s         Normal    Created             pod/linkerd-proxy-injector-c44857b54-ns728    Created container linkerd-init
+24s         Normal    Started             pod/linkerd-proxy-injector-c44857b54-ns728    Started container linkerd-init
+21s         Normal    Pulling             pod/linkerd-proxy-injector-c44857b54-ns728    Pulling image "cr.l5d.io/linkerd/proxy:stable-2.11.1"
+25m         Normal    SuccessfulCreate    replicaset/linkerd-proxy-injector-c44857b54   Created pod: linkerd-proxy-injector-c44857b54-ns728
+25m         Normal    ScalingReplicaSet   deployment/linkerd-proxy-injector             Scaled up replica set linkerd-proxy-injector-c44857b54 to 1
+spintly@spintly-PowerEdge-T40:~/Downloads$ kubectl get events -n emojivoto -o wide
+LAST SEEN   TYPE      REASON             OBJECT                          SUBOBJECT                     SOURCE                           MESSAGE                                                                                                          FIRST SEEN   COUNT   NAME
+5m38s       Warning   FailedScheduling   pod/emoji-5dbdd567bd-5jqqd                                    default-scheduler                0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.   80m          73      emoji-5dbdd567bd-5jqqd.16d6180c54cc22d8
+3m56s       Normal    Pulling            pod/emoji-5dbdd567bd-5jqqd      spec.containers{emoji-svc}    kubelet, spintly-poweredge-t40   Pulling image "docker.l5d.io/buoyantio/emojivoto-emoji-svc:v11"                                                  3m56s        1       emoji-5dbdd567bd-5jqqd.16d61c3bd099067f
+2m33s       Normal    Pulled             pod/emoji-5dbdd567bd-5jqqd      spec.containers{emoji-svc}    kubelet, spintly-poweredge-t40   Successfully pulled image "docker.l5d.io/buoyantio/emojivoto-emoji-svc:v11" in 1m23.359891721s                   2m33s        1       emoji-5dbdd567bd-5jqqd.16d61c4f393c8268
+2m25s       Normal    Created            pod/emoji-5dbdd567bd-5jqqd      spec.containers{emoji-svc}    kubelet, spintly-poweredge-t40   Created container emoji-svc                                                                                      2m25s        1       emoji-5dbdd567bd-5jqqd.16d61c512f91aadc
+2m24s       Normal    Started            pod/emoji-5dbdd567bd-5jqqd      spec.containers{emoji-svc}    kubelet, spintly-poweredge-t40   Started container emoji-svc                                                                                      2m24s        1       emoji-5dbdd567bd-5jqqd.16d61c51526679f1
+4m38s       Warning   FailedScheduling   pod/vote-bot-58b4f5fdb7-6dg4n                                 default-scheduler                0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.   80m          73      vote-bot-58b4f5fdb7-6dg4n.16d6180c58b4f096
+3m57s       Normal    Pulling            pod/vote-bot-58b4f5fdb7-6dg4n   spec.containers{vote-bot}     kubelet, spintly-poweredge-t40   Pulling image "docker.l5d.io/buoyantio/emojivoto-web:v11"                                                        3m57s        1       vote-bot-58b4f5fdb7-6dg4n.16d61c3bb9ea2b9a
+2m49s       Normal    Pulled             pod/vote-bot-58b4f5fdb7-6dg4n   spec.containers{vote-bot}     kubelet, spintly-poweredge-t40   Successfully pulled image "docker.l5d.io/buoyantio/emojivoto-web:v11" in 1m7.429447625s                          2m49s        1       vote-bot-58b4f5fdb7-6dg4n.16d61c4b6d062ef3
+2m43s       Normal    Created            pod/vote-bot-58b4f5fdb7-6dg4n   spec.containers{vote-bot}     kubelet, spintly-poweredge-t40   Created container vote-bot                                                                                       2m43s        1       vote-bot-58b4f5fdb7-6dg4n.16d61c4cd390e5da
+2m43s       Normal    Started            pod/vote-bot-58b4f5fdb7-6dg4n   spec.containers{vote-bot}     kubelet, spintly-poweredge-t40   Started container vote-bot                                                                                       2m43s        1       vote-bot-58b4f5fdb7-6dg4n.16d61c4cf49b6dc7
+4m38s       Warning   FailedScheduling   pod/voting-5fdcddcfc-999kp                                    default-scheduler                0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.   80m          73      voting-5fdcddcfc-999kp.16d6180c6a810593
+3m56s       Normal    Pulling            pod/voting-5fdcddcfc-999kp      spec.containers{voting-svc}   kubelet, spintly-poweredge-t40   Pulling image "docker.l5d.io/buoyantio/emojivoto-voting-svc:v11"                                                 3m56s        1       voting-5fdcddcfc-999kp.16d61c3bd1135800
+2m16s       Normal    Pulled             pod/voting-5fdcddcfc-999kp      spec.containers{voting-svc}   kubelet, spintly-poweredge-t40   Successfully pulled image "docker.l5d.io/buoyantio/emojivoto-voting-svc:v11" in 1m40.567402066s                  2m16s        1       voting-5fdcddcfc-999kp.16d61c533b5d8138
+2m13s       Normal    Created            pod/voting-5fdcddcfc-999kp      spec.containers{voting-svc}   kubelet, spintly-poweredge-t40   Created container voting-svc                                                                                     2m13s        1       voting-5fdcddcfc-999kp.16d61c53c897e3da
+2m11s       Normal    Started            pod/voting-5fdcddcfc-999kp      spec.containers{voting-svc}   kubelet, spintly-poweredge-t40   Started container voting-svc                                                                                     2m11s        1       voting-5fdcddcfc-999kp.16d61c5448eb26bd
+4m38s       Warning   FailedScheduling   pod/web-67c857998c-lm9xf                                      default-scheduler                0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.   80m          73      web-67c857998c-lm9xf.16d6180c74ca4315
+3m55s       Normal    Pulling            pod/web-67c857998c-lm9xf        spec.containers{web-svc}      kubelet, spintly-poweredge-t40   Pulling image "docker.l5d.io/buoyantio/emojivoto-web:v11"                                                        3m55s        1       web-67c857998c-lm9xf.16d61c3c1e790edb
+2m6s        Normal    Pulled             pod/web-67c857998c-lm9xf        spec.containers{web-svc}      kubelet, spintly-poweredge-t40   Successfully pulled image "docker.l5d.io/buoyantio/emojivoto-web:v11" in 1m48.635926754s                         2m6s         1       web-67c857998c-lm9xf.16d61c5569ae46f9
+2m2s        Normal    Created            pod/web-67c857998c-lm9xf        spec.containers{web-svc}      kubelet, spintly-poweredge-t40   Created container web-svc                                                                                        2m2s         1       web-67c857998c-lm9xf.16d61c5683562999
+2m1s        Normal    Started            pod/web-67c857998c-lm9xf        spec.containers{web-svc}      kubelet, spintly-poweredge-t40   Started container web-svc                                                                                        2m1s         1       web-67c857998c-lm9xf.16d61c56c19f3a4c
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd check
+Linkerd core checks
+===================
+
+kubernetes-api
+--------------
+√ can initialize the client
+√ can query the Kubernetes API
+
+kubernetes-version
+------------------
+√ is running the minimum Kubernetes API version
+√ is running the minimum kubectl version
+
+linkerd-existence
+-----------------
+√ 'linkerd-config' config map exists
+√ heartbeat ServiceAccount exist
+√ control plane replica sets are ready
+√ no unschedulable pods
+√ control plane pods are ready
+√ cluster networks contains all node podCIDRs
+
+linkerd-config
+--------------
+√ control plane Namespace exists
+√ control plane ClusterRoles exist
+√ control plane ClusterRoleBindings exist
+√ control plane ServiceAccounts exist
+√ control plane CustomResourceDefinitions exist
+√ control plane MutatingWebhookConfigurations exist
+√ control plane ValidatingWebhookConfigurations exist
+
+linkerd-identity
+----------------
+√ certificate config is valid
+√ trust anchors are using supported crypto algorithm
+√ trust anchors are within their validity period
+√ trust anchors are valid for at least 60 days
+√ issuer cert is using supported crypto algorithm
+√ issuer cert is within its validity period
+√ issuer cert is valid for at least 60 days
+√ issuer cert is issued by the trust anchor
+
+linkerd-webhooks-and-apisvc-tls
+-------------------------------
+√ proxy-injector webhook has valid cert
+√ proxy-injector cert is valid for at least 60 days
+√ sp-validator webhook has valid cert
+√ sp-validator cert is valid for at least 60 days
+√ policy-validator webhook has valid cert
+√ policy-validator cert is valid for at least 60 days
+
+linkerd-version
+---------------
+√ can determine the latest version
+√ cli is up-to-date
+
+control-plane-version
+---------------------
+√ can retrieve the control plane version
+√ control plane is up-to-date
+√ control plane and cli versions match
+
+linkerd-control-plane-proxy
+---------------------------
+√ control plane proxies are healthy
+√ control plane proxies are up-to-date
+√ control plane proxies and cli versions match
+
+Status check results are √
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd dashboard
+Command "dashboard" is deprecated, use instead 'linkerd viz dashboard [flags]'
+
+Cannot connect to Linkerd Viz: namespace "viz" not found
+Validate the install with: linkerd viz check
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd viz dashboard
+Cannot connect to Linkerd Viz: namespace "viz" not found
+Validate the install with: linkerd viz check
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd viz ccheck
+viz manages the linkerd-viz extension of Linkerd service mesh.
+
+Usage:
+  linkerd viz [command]
+
+Available Commands:
+  authz       Display stats for server authorizations for a resource
+  check       Check the Linkerd Viz extension for potential problems
+  dashboard   Open the Linkerd dashboard in a web browser
+  edges       Display connections between resources, and Linkerd proxy identities
+  install     Output Kubernetes resources to install linkerd-viz extension
+  list        Lists which pods can be tapped
+  profile     Output service profile config for Kubernetes based off tap data
+  routes      Display route stats
+  stat        Display traffic stats about one or many resources
+  tap         Listen to a traffic stream
+  top         Display sorted information about live traffic
+  uninstall   Output Kubernetes resources to uninstall the linkerd-viz extension
+
+Flags:
+  -h, --help   help for viz
+
+Global Flags:
+      --api-addr string            Override kubeconfig and communicate directly with the control plane at host:port (mostly for testing)
+      --as string                  Username to impersonate for Kubernetes operations
+      --as-group stringArray       Group to impersonate for Kubernetes operations
+      --cni-namespace string       Namespace in which the Linkerd CNI plugin is installed (default "linkerd-cni")
+      --context string             Name of the kubeconfig context to use
+      --kubeconfig string          Path to the kubeconfig file to use for CLI requests
+  -L, --linkerd-namespace string   Namespace in which Linkerd is installed ($LINKERD_NAMESPACE) (default "linkerd")
+      --verbose                    Turn on debug logging
+
+Use "linkerd viz [command] --help" for more information about a command.
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd viz check
+linkerd-viz
+-----------
+× linkerd-viz Namespace exists
+    namespace "viz" not found
+    see https://linkerd.io/2.11/checks/#l5d-viz-ns-exists for hints
+
+Status check results are ×
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd viz install | kubectl apply -f -
+namespace/linkerd-viz created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-viz-metrics-api created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-metrics-api created
+serviceaccount/metrics-api created
+serviceaccount/grafana created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-viz-prometheus created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-prometheus created
+serviceaccount/prometheus created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-viz-tap created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-viz-tap-admin created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-tap created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-tap-auth-delegator created
+serviceaccount/tap created
+rolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-tap-auth-reader created
+secret/tap-k8s-tls created
+apiservice.apiregistration.k8s.io/v1alpha1.tap.linkerd.io created
+role.rbac.authorization.k8s.io/web created
+rolebinding.rbac.authorization.k8s.io/web created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-viz-web-check created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-web-check created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-web-admin created
+clusterrole.rbac.authorization.k8s.io/linkerd-linkerd-viz-web-api created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-linkerd-viz-web-api created
+serviceaccount/web created
+server.policy.linkerd.io/admin created
+serverauthorization.policy.linkerd.io/admin created
+server.policy.linkerd.io/proxy-admin created
+serverauthorization.policy.linkerd.io/proxy-admin created
+service/metrics-api created
+Warning: spec.template.spec.nodeSelector[beta.kubernetes.io/os]: deprecated since v1.14; use "kubernetes.io/os" instead
+deployment.apps/metrics-api created
+server.policy.linkerd.io/metrics-api created
+serverauthorization.policy.linkerd.io/metrics-api created
+configmap/grafana-config created
+service/grafana created
+deployment.apps/grafana created
+server.policy.linkerd.io/grafana created
+serverauthorization.policy.linkerd.io/grafana created
+configmap/prometheus-config created
+service/prometheus created
+deployment.apps/prometheus created
+service/tap created
+deployment.apps/tap created
+server.policy.linkerd.io/tap-api created
+serverauthorization.policy.linkerd.io/tap created
+clusterrole.rbac.authorization.k8s.io/linkerd-tap-injector created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-tap-injector created
+serviceaccount/tap-injector created
+secret/tap-injector-k8s-tls created
+mutatingwebhookconfiguration.admissionregistration.k8s.io/linkerd-tap-injector-webhook-config created
+service/tap-injector created
+deployment.apps/tap-injector created
+server.policy.linkerd.io/tap-injector-webhook created
+serverauthorization.policy.linkerd.io/tap-injector created
+service/web created
+deployment.apps/web created
+serviceprofile.linkerd.io/metrics-api.linkerd-viz.svc.cluster.local created
+serviceprofile.linkerd.io/prometheus.linkerd-viz.svc.cluster.local created
+serviceprofile.linkerd.io/grafana.linkerd-viz.svc.cluster.local created
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd jaguar install | kubectl apply -f -
+Error: unknown command "jaguar" for "linkerd"
+Run 'linkerd --help' for usage.
+error: no objects passed to apply
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd jagger install | kubectl apply -f -
+Error: unknown command "jagger" for "linkerd"
+
+Did you mean this?
+	jaeger
+
+Run 'linkerd --help' for usage.
+^[[Aerror: no objects passed to apply
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd jaeger install | kubectl apply -f -
+namespace/linkerd-jaeger created
+server.policy.linkerd.io/proxy-admin created
+serverauthorization.policy.linkerd.io/proxy-admin created
+Warning: spec.template.spec.nodeSelector[beta.kubernetes.io/os]: deprecated since v1.14; use "kubernetes.io/os" instead
+deployment.apps/jaeger-injector created
+service/jaeger-injector created
+server.policy.linkerd.io/jaeger-injector-webhook created
+server.policy.linkerd.io/jaeger-injector-admin created
+serverauthorization.policy.linkerd.io/jaeger-injector created
+serviceaccount/collector created
+clusterrole.rbac.authorization.k8s.io/linkerd-jaeger-injector created
+clusterrolebinding.rbac.authorization.k8s.io/linkerd-jaeger-injector created
+serviceaccount/jaeger-injector created
+secret/jaeger-injector-k8s-tls created
+mutatingwebhookconfiguration.admissionregistration.k8s.io/linkerd-jaeger-injector-webhook-config created
+serviceaccount/jaeger created
+configmap/collector-config created
+service/collector created
+deployment.apps/collector created
+service/jaeger created
+deployment.apps/jaeger created
+server.policy.linkerd.io/collector-otlp created
+server.policy.linkerd.io/collector-opencensus created
+server.policy.linkerd.io/collector-zipkin created
+server.policy.linkerd.io/collector-jaeger-thrift created
+server.policy.linkerd.io/collector-jaeger-grpc created
+server.policy.linkerd.io/collector-admin created
+serverauthorization.policy.linkerd.io/collector created
+server.policy.linkerd.io/jaeger-grpc created
+serverauthorization.policy.linkerd.io/jaeger-grpc created
+server.policy.linkerd.io/jaeger-admin created
+serverauthorization.policy.linkerd.io/jaeger-admin created
+server.policy.linkerd.io/jaeger-ui created
+serverauthorization.policy.linkerd.io/jaeger-ui created
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd viz dashboard
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+Waiting for linkerd-viz extension to become available
+^C
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd viz check
+linkerd-viz
+-----------
+√ linkerd-viz Namespace exists
+√ linkerd-viz ClusterRoles exist
+√ linkerd-viz ClusterRoleBindings exist
+√ tap API server has valid cert
+√ tap API server cert is valid for at least 60 days
+√ tap API service is running
+√ linkerd-viz pods are injected
+√ viz extension pods are running
+√ viz extension proxies are healthy
+√ viz extension proxies are up-to-date
+√ viz extension proxies and cli versions match
+√ prometheus is installed and configured correctly
+√ can initialize the client
+√ viz extension self-check
+
+Status check results are √
+spintly@spintly-PowerEdge-T40:~/Downloads$ linkerd viz dashboard
+Linkerd dashboard available at:
+http://localhost:50750
+Grafana dashboard available at:
+http://localhost:50750/grafana
+Opening Linkerd dashboard in the default browser
+^Cspintly@spintly-PowerEdge-T40:~/Downloads$ linkerd jaeger dashboard
+Jaeger extension dashboard available at:
+http://localhost:16686
+^Cspintly@spintly-PowerEdge-T40:~/Downloads$ helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+"sealed-secrets" already exists with the same configuration, skipping
+spintly@spintly-PowerEdge-T40:~/Downloads$ helm install sealed-secrets sealed-secrets/sealed-secrets
+NAME: sealed-secrets
+LAST DEPLOYED: Tue Feb 22 18:29:00 2022
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+** Please be patient while the chart is being deployed **
+
+You should now be able to create sealed secrets.
+
+1. Install the client-side tool (kubeseal) as explained in the docs below:
+
+    https://github.com/bitnami-labs/sealed-secrets#installation-from-source
+
+2. Create a sealed secret file running the command below:
+
+    kubectl create secret generic secret-name --dry-run=client --from-literal=foo=bar -o [json|yaml] | \
+    kubeseal \
+      --controller-name=sealed-secrets \
+      --controller-namespace=default \
+      --format yaml > mysealedsecret.[json|yaml]
+
+The file mysealedsecret.[json|yaml] is a commitable file.
+
+If you would rather not need access to the cluster to generate the sealed secret you can run:
+
+    kubeseal \
+      --controller-name=sealed-secrets \
+      --controller-namespace=default \
+      --fetch-cert > mycert.pem
+
+to retrieve the public cert used for encryption and store it locally. You can then run 'kubeseal --cert mycert.pem' instead to use the local cert e.g.
+
+    kubectl create secret generic secret-name --dry-run=client --from-literal=foo=bar -o [json|yaml] | \
+    kubeseal \
+      --controller-name=sealed-secrets \
+      --controller-namespace=default \
+      --format [json|yaml] --cert mycert.pem > mysealedsecret.[json|yaml]
+
+3. Apply the sealed secret
+
+    kubectl create -f mysealedsecret.[json|yaml]
+
+Running 'kubectl get secret secret-name -o [json|yaml]' will show the decrypted secret that was generated from the sealed secret.
+
+Both the SealedSecret and generated Secret must have the same name and namespace.
+
