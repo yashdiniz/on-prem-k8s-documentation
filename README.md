@@ -30,6 +30,8 @@ sudo usermod -aG docker <user>
 
 > NOTE: SCRAPPING k3s in favor of the more powerful and favorable `kubeadm`. This on-premises server runs on a 32GB Intel Xeon, can handle `kubeadm` much better than k3s. k3s is too lightweight. If `kubeadm` fails, then `kind` will be the last alternative.
 
+> REMEMBER to perform `sudo swapoff -a` since kubeadm fails miserably with swap.
+
 https://itnext.io/bare-metal-kubernetes-with-kubeadm-nginx-ingress-controller-and-haproxy-bb0a7ef29d4e
 
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
