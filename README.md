@@ -32,6 +32,19 @@ sudo usermod -aG docker <user>
 
 > REMEMBER to perform `sudo swapoff -a` since kubeadm fails miserably with swap.
 
+> Create the kubeconfig as follows:
+```bash
+kubeadm init --config kubeadm/kubeadm-config.yaml --pod-network-cidr=10.244.0.0/16  # canal expects this to be the default pod CIDR
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+for node in $(kubectl get nodes --selector='node-role.kubernetes.io/master' | awk 'NR>1 {print $1}' ) ; do   kubectl taint node $node node-role.kubernetes.io/master- ; done
+```
+
+> REMEMBER to `kubectl apply -f https://projectcalico.docs.tigera.io/manifests/canal.yaml` for networking.
+
 https://itnext.io/bare-metal-kubernetes-with-kubeadm-nginx-ingress-controller-and-haproxy-bb0a7ef29d4e
 
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
@@ -153,6 +166,8 @@ https://github.com/bitnami-labs/sealed-secrets/releases
 
 https://github.com/bitnami-labs/sealed-secrets#installation-from-source
 
+https://github.com/kubernetes/kubernetes/issues/54918
+
 ### Uploading a Sealed Secret up to Kubernetes
 
 ```bash
@@ -220,3 +235,4 @@ https://helm.sh/docs/topics/charts/
 1. [Using a private registry on k3s](https://bryanbende.com/development/2021/07/02/k3s-raspberry-pi-jenkins-registry-p1)
 1. [A Solution to AWS ECR Image Pull Secrets](https://github.com/k3s-io/k3s/issues/1427#issuecomment-781309205)
 1. [GitOps - Introduction](https://www.gitops.tech/)
+1. [Kubeadm troubleshooting guide](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/troubleshooting-kubeadm/)
