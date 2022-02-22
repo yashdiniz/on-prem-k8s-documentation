@@ -28,6 +28,18 @@ sudo usermod -aG docker <user>
 
 ## Installing k3s
 
+> NOTE: SCRAPPING k3s in favor of the more powerful and favorable `kubeadm`. This on-premises server runs on a 32GB Intel Xeon, can handle `kubeadm` much better than k3s. k3s is too lightweight. If `kubeadm` fails, then `kind` will be the last alternative.
+
+https://itnext.io/bare-metal-kubernetes-with-kubeadm-nginx-ingress-controller-and-haproxy-bb0a7ef29d4e
+
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+https://stackoverflow.com/questions/48119650/helm-x509-certificate-signed-by-unknown-authority
+
+https://discuss.kubernetes.io/t/the-connection-to-the-server-localhost-8080-was-refused-did-you-specify-the-right-host-or-port/1464/4
+
+https://helm.sh/docs/topics/registries/
+
 Installing k3s is as simple as running a single command, shown below:
 
 ```bash
@@ -77,6 +89,8 @@ Using helm on k3s also requires the installation of the helm-controller.
 ```bash
 helm repo add stable https://charts.helm.sh/stable
 helm repo update
+
+sudo k3s kubectl cluster-info   # to know the cluster server info
 
 sudo kubectl -n kube-system create serviceaccount tiller
 sudo kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
