@@ -8,56 +8,57 @@ Please check the [latest documentation for installing `k3s` and `docker`](https:
 
 ## Installing docker
 
-The current setup at Spintly uses `docker` for containerization. 
-By default however, `k3s` uses containerd, which means an extra step must be performed. 
-We need to install `docker`.
+The current setup at Spintly uses `docker` for containerization.
 
 ```bash
-curl https://releases.rancher.com/install-docker/19.03.sh | sh
+curl https://releases.rancher.com/install-docker/19.03.sh | sh  # using the rancher version of Docker. Not important, can use the official version too.
 ```
 
-Also, if you wish to run docker commands without using sudo, 
-you can add the current user to the `docker` group, by running the following command:
+Also, if you wish to run docker commands without using sudo, you can add the current user to the `docker` group, by running the following command:
 
 ```bash
 # REMEMBER, you will need to replace <user> with a user on the system
 sudo usermod -aG docker <user>
 ```
 
+It is better to use docker without superuser, mainly for security purposes, but also for convenience.
+
 > NOTE: You have to logout/reboot if you want the command to take effect.
 
-## Installing k3s
+## Installing aws cli
 
-> NOTE: SCRAPPING k3s in favor of the more powerful and favorable `kubeadm`. This on-premises server runs on a 32GB Intel Xeon, can handle `kubeadm` much better than k3s. k3s is too lightweight. If `kubeadm` fails, then `kind` will be the last alternative.
+Refer to [this documentation from AWS](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) for installing AWS cli on Linux. We will use AWS cli for configuring AWS ECR.
 
-> REMEMBER to perform `sudo swapoff -a` since kubeadm fails miserably with swap.
+## Installing kubeadm and creating a cluster
 
-> Create the kubeconfig as follows:
+> Use [this guide to install kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/). Use [this guide to create a cluster using kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
+
+> NOTE: SCRAPPING k3s in favor of the more powerful and favorable `kubeadm`. This on-premises server runs on a 32GB Intel Xeon, can handle `kubeadm` much better than k3s. k3s is too lightweight. If `kubeadm` fails, then `kind` will be the last alternative. REMEMBER to perform `sudo swapoff -a` since kubeadm fails miserably with swap.
+
+Create a Kubernetes cluster with minimum configuration using the following command:
 ```bash
 kubeadm init --config kubeadm/kubeadm-config.yaml --pod-network-cidr=10.244.0.0/16  # canal expects this to be the default pod CIDR
+```
 
+After creating the Kubernetes cluster, create the kubeconfig as follows:
+```bash
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
 
+The current configuration assumes a single node serving as master node, control-plane and worker nodes. Thus, we have to **untaint** the master node to allow allocation of pods. Run the following command:
+
+```bash
 for node in $(kubectl get nodes --selector='node-role.kubernetes.io/master' | awk 'NR>1 {print $1}' ) ; do   kubectl taint node $node node-role.kubernetes.io/master- ; done
 ```
 
-> REMEMBER to `kubectl apply -f https://projectcalico.docs.tigera.io/manifests/canal.yaml` for networking.
+Finally, Kubernetes clusters require CNI (Container Network Interface) to simulate a Virtual LAN between the pods. Fortunately, tools like Canal from **Project Calico** allow to create a simple and minimal setup of a VLAN CNI. Thus, to configure networking, run the following command:
+```bash
+kubectl apply -f https://projectcalico.docs.tigera.io/manifests/canal.yaml
+```
 
-https://itnext.io/bare-metal-kubernetes-with-kubeadm-nginx-ingress-controller-and-haproxy-bb0a7ef29d4e
-
-https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
-
-https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/
-
-https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
-
-https://stackoverflow.com/questions/48119650/helm-x509-certificate-signed-by-unknown-authority
-
-https://discuss.kubernetes.io/t/the-connection-to-the-server-localhost-8080-was-refused-did-you-specify-the-right-host-or-port/1464/4
-
-https://helm.sh/docs/topics/registries/
+### DEPRECATED, CAN IGNORE this section
 
 Installing k3s is as simple as running a single command, shown below:
 
@@ -92,10 +93,6 @@ To confirm that the clusters are running in docker containers, you can run the c
 ```bash
 sudo docker ps
 ```
-
-## Installing aws cli
-
-Refer to [this documentation from AWS](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) for installing AWS cli on Linux.
 
 ## Installing Helm
 
@@ -251,8 +248,15 @@ https://helm.sh/docs/topics/charts/
 1. [Using a private registry on k3s](https://bryanbende.com/development/2021/07/02/k3s-raspberry-pi-jenkins-registry-p1)
 1. [A Solution to AWS ECR Image Pull Secrets](https://github.com/k3s-io/k3s/issues/1427#issuecomment-781309205)
 1. [GitOps - Introduction](https://www.gitops.tech/)
+1. [Kubeadm installation guide](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+1. [Kubeadm Cluster Creation guide](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
+1. [Kubeadm configuring cgroup driver](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/)
 1. [Kubeadm troubleshooting guide](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/troubleshooting-kubeadm/)
 1. [RedHat GitOps](https://cloud.redhat.com/blog/gitops-secret-management)
 1. [Kustomizations for Sealed-Secrets](https://github.com/raif-ahmed/oc4-learn/blob/master/secret-managment/sealed-secrets/base/kustomization.yaml)
 1. [The Sealed Secrets package on ArtifactHub](https://artifacthub.io/packages/helm/bitnami-labs/sealed-secrets)
 1. [Sealed Secrets on GitHub](https://github.com/bitnami-labs/sealed-secrets/releases) with [Kubeseal installation instructions](https://github.com/bitnami-labs/sealed-secrets#installation-from-source)
+1. [Troubleshooting Helm in the event of certificate errors](https://stackoverflow.com/questions/48119650/helm-x509-certificate-signed-by-unknown-authority)
+1. [Troubleshooting Helm if connection refused](https://discuss.kubernetes.io/t/the-connection-to-the-server-localhost-8080-was-refused-did-you-specify-the-right-host-or-port/1464/4)
+1. [Misc: Installing Ingress controller and haproxy](https://itnext.io/bare-metal-kubernetes-with-kubeadm-nginx-ingress-controller-and-haproxy-bb0a7ef29d4e)
+1. [Helm Topic: Registries](https://helm.sh/docs/topics/registries/)
