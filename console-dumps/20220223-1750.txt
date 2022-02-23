@@ -1,0 +1,362 @@
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl create secret -n default generic awsecr-cred --dry-run=client --from-env-file=.env -o yaml | kubeseal --controller-name=sealed-secrets --controller-namespace=default
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "awsecr-cred",
+    "namespace": "default",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "awsecr-cred",
+        "namespace": "default",
+        "creationTimestamp": null
+      },
+      "data": null
+    },
+    "encryptedData": {
+      "AWS_ACCESS_KEY_ID": "AgCVptoum8CjWGEGEi2nzr/VHViQGYgXSYOrwSaYm5hfWW4EehdznqUqJ0SbyNHbMA/bcrdcatnjhsaQWR2Yl297W1zB4Iwx9YWvGggkAX32bwVQJsBNe/RO0QDxyUdCtquzZihvWvKaRae3/DutoyN0HvH+hpPjy/QE7c8AJUQ3j9vt6IO9Reoy31fdgx/UW36wAtDK1Y+z6GCYsUaYoyU4b5jVkgphSrGFtO5Kgzae+Y4RREuzrGjHW2C/8DdNsA/Tp0M/47JRxDy8XGZUcC41NRr4I6LfWrD7AmRooO1E8XZ7/s7CmgC/R+QTzRNhzBE2B5z5rIY6FQBCSA0AbuowMEhLO2o0a3TWAZMWD85RSoY/+bVndtzhz93BDnxXYoCQUjuEaSUK6oDt1MbXWhVpJSPEo7+uTz8QG2pSV1I8ngYPMkrp3RtJgOfwXTVjYSq32+G3Q7cb26q6jpPYfjO9TctDIwckBgeAeFK/soctaWoPb3j5kKwd1VfQb5U2h24eljCdbMBHad+c/4b4AbrSVOyPTINYZMvua9a//V6zJIIRuYn8eo5aD1fMx1L09lSfF0BOmBiwj9EcX+MqVR+SqaVngHsPYi+pL0VFDt+6Gyh7BaA2cMzHraIYeAHwd0H/vkiiNLWRJsirepVBk3aylKhOaZxU6okj7Q0W03vXmGdAulNbu0HSXQ6AO+2cLDGLUuCmC2uVewdWKIEL5gFygT1Kqw==",
+      "AWS_SECRET_ACCESS_KEY": "AgAvdcXezkSLOysSlmIiWtfztY0+XNg7QkXcZE2o2ch2W4MVDzdEDNadBDJyKxHfOM65fZgJTpXT8rmWKTMHrOXmy6z3QwHGuhvyV4nKYlXzrZ77mWFBTZa6u3/2x1QCtvKzWCKPsHIAaVcjdWKzzkt+/7ayZv2ZWgWmp9YUg2jvah53SkyY0aknwQ/OpCwcWOrnFeskkfImDnYeGHxonPS8f4N67MAJrBVP7peGhcW4gRYiCLhnXnYQ8Wlkc2P+Nea2hINQTnuixGrI+E1yYoA0F9qwSDJ9fLeqcJcPxzroIcrekkuEso/bn6X/faaeFimC/zFkzJEXS8AOLFvgEwqtAQkThAY5n5/5Ang4yUD9JFtKbbpKqaSPBmwcmO0Lrpk5Bir+RdIc9ELCsA9YYp4lJWryNNh1GO7V3iVBuG40nwG2FMtqjoUjdGthCs/v9CBs/7RtFjfvmC1OMREUEvUecqi/7E6EO67wCA7nYF/pXRvz7lbMyYn1tae/Dh4YVXRftkWUPinlURqpidjeR6RPtyQyKqHuALIbjPZFc/xa9OAMnUcR8FezIysed08c/OKVVawDN56q2grbuIVpDLXhoWg7edt31/X1qrhUQ2xCiwvppVBLissPX2B8+W9wvwlSXzQCbCmSLncGFC6uK/3Z8LVoTYOr48oDlGje+hZCSmr0AsRS5EVndP7Mjr1uoe+XiuJ0Z2250QJ426wSk6aJTljvqWeGjuRBxYji2ZgGjh5e5ceP7Que",
+      "AWS_SESSION_TOKEN": "AgBEGiHuSF8C8O6VesJfsCKAiYFhQbA0JOP/B1XFq6rIBTBOyUdTcNSUICbEgUAJDVqS3ATd99rFx3tJxDHTuxB7epN41sB2bYfbxga8Kkdn+R6hO8cR28IdI2hS/ulOpuQRcHXZ9ddCBL41BRsr7iCK8I27K18r7T0r23BN9ssAwcoHocZpsvnw+GfBfvyBa3KBq8f085GHREbefK6TXh5FUUoWDchO4sCWhUS/Ca05rs2AdbZPHaa3qx/kX7hg7b6Bq7m8r37qCLRBzKth8ufKAnHWIeoWaowI9fNBQB/m+VuADGu/TyO5kZ7M0yKBMztFkwdjdxCeph64iwr/webHkbxvqxYffitfNDP3S73r12TWNRhM8DM0Q6z0I0IGZOfV14m+m7zND7ijHACu2X1eNZK4WzjXZFgYShIc8A1vmI2MnX6JGIMkRK9CybOWu2kb7AiklUvkb2s6xyQ+nYw1qHIBKO5SeRGl2sTMyowAcE9AmxIxS5WRb7uimbszcLPdpPxl1cLvc7IZ9SBRmcUNw6FfIEVsnTJ4jtiTvNbqXGWaM6tHSiWJOlyHAeCV2SzleMQr96EqZgLui6YehTr6I4RutA6r9jSlwxJzTGzz+nde949mLoLQ+SiENcECMMJkJTjb21h7++0W8/PmghNzmw9CH+Avv4XrxsEqt100akRn0Cv/DPd3Ak4RsHV6TW3wbg==",
+      "aws-account": "AgBwGIAsA2/iPBtg+7EWLk1u5x22Y7udMEZcc+AyACweyQPIdI1AWsqmjq1DjT0aPuMrF0QGQBor2Zr0X6O1PpOs1ZBtGhqQWgUo/xE3Xl4at+gmziA9xFzxdcp8X1AcNvpkLqiYapqClJoPXJEQzgXZLHJvFhjsjB6wxrDZrZqCe0hxdKeIp8xCyWobmjJGKpTlIDLuVLlJCae99oJ1giyTRCLhJFYV39cq2H0Sw/TGO94hTnUFYWw8qQI5183jbauFtNCrkDo69gFcBzfYNX8dm5ZbvN56v7Mtb3swkR3a4LoPGCNEPpf2/cektwDqfsVQboRt9K2eACfzkzSIHcfSnf+NtG/WZ5auXxyplc3Fy2MCaO5ckLku5y96LRfwu21yh7N7gXHMoh0jhtmwdgFRkYP8lRFgobO2wZbUOHW9/NchekTsXOsVBRcfm+/ceFkPDoh6bdPShbSB+j4DaYSSGSQAAABpZRonHzSoqj1kwk9p2D5is0Z7n9amQONLcFMBWUP9EbOd9t8ZokRJSfSzg2WWIDpTlxq7DedL4y0YgjkSKndiKySBtVTiQ7pRwet0dcDQ6NBPNT46wI00XqYvQ6DFxjdl/Om8FkhNQxyuds/+7JPW++EOqWsFjBljZZjYBq0O7b4s+5K/3/ApEWyKeri203XJTglb8CVUAHz6I9itfE/YZbB7zpvUIvBPgjOSPGXsFO56CG1CzGUHRbGi8fBrQsT2",
+      "aws-region": "AgBwNt9w+Mugr19DxfQXy1441l7B3S3g/b2afkcZNm0ZzU58ICiKdAju+ybsKseCM7QZB2hvdUmXtVxUO7TMaKuYvlRctATWO9+CTGDSqogb1TB1zYqYAz+y1PuzYa6ktstYNqoWYgK4E4XrL2N+cmB0x+/tuDXYjJ8qlcOxiO9D/V9/KENuU+xQ4tWjQFdDNgIyLQNGqvxKikRWbqHM30hk0/+BPS9AqYE47e+YKayJFVzm/LSrn9nqfRXKlOUF52Ec9Dq2MFULIhcQAgUYJAPqOLGIHMfrWOLD/RdLuffgEWMhsS3KsnUo1w01kaqUr8dW9997//JTu5QeinAEmOshiPJd3LEkyrhmPDj+jh4QCGJtInyMpYGLaib/GkzhB06UOoeJqDcZccovE2xz5J6skdOls4xDj1f3gy7M8eRF+H8gU5exPS9ARD8fOMgSDSJdmqOXhE32D1oIEu+324G82Chbz1KgxRcl3HffmGqrzwwoWX6TdicPSvY+eB36977bRzQwNbD7Sxsw1Cj2CXz7gzAoQdravyqHZCEci4D1jH+W8/hpjEAqeTQk6Y/dCJMMJGsKw3q1doGWHaC1GSeNCZnY3/+5DCxY6qTBVw8x50QVDC4KGt/ujRHG9JiwakkQ7Sw2lfSRSaCQiD59VEIYPVNVCRB3rwgwEN/XGT1/+lhvcAiYKt9Z8f1ZD1+6KuwReQUgL9YtqKXj"
+    }
+  }
+}
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl create secret -n default generic awsecr-cred --dry-run=client --from-env-file=.env -o yaml | kubeseal --controller-name=sealed-secrets --controller-namespace=default --cert publicKey.pem > sealedSecret.yml
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ cat se
+cat: se: No such file or directory
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ cat se
+sealedSecret.yml  secret.yaml       
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ cat sealedSecret.yml 
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "awsecr-cred",
+    "namespace": "default",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "awsecr-cred",
+        "namespace": "default",
+        "creationTimestamp": null
+      },
+      "data": null
+    },
+    "encryptedData": {
+      "AWS_ACCESS_KEY_ID": "AgAobxKLpsDIewP+npv7MpB2k+XPY1bSC27ghyQaebg69Z6F47GSFFPewzyuLSvgANV+5ns5wm10+X3uUxj+V2zcGNXtcTFnnpltmawJiGAalnEotKey3DsrYlwgEzjQcwRGFKUwwqB5lxGTdqXtRUgGu/aK45zNDzCKwyp2iy1IxTWxecUs9lEFlUzjhsY1djQsiBnJN4j1b2DUsdz+qeEnyUtTy/MOjazmaBrjgEGuHcrwOB1aY1hZpSJre8x6dtua61s47Gl7rPZ68r5eAbPSLD5adfUJlzZZmwPqidnsF676t/Z2Fx7bmrSVuFkBanLx3bziJIw4NhzT2riU6Jp/aUi6Ihz3WFupagwr1ChNNXavFyQx2VmdDHnDeBldWtQH4kjsyQKQpJ9kiVsqocXIcwoXdmPs0/9kukBowVnUvdAar+yAFdewb56bBTwTq8h3O8IahChLISmsvAX9JQbi1q3QeJCFGQ4B9n6NjaE87OLkb6TfHUzOC3EItWDJaqhP/Jqox8SH37gYgQUMuP7P9QoICPxvurTZljoEpeZuiSqzzdivWrP8um1SaqgWVtEqMezP4R0hexBvK7G2jkncL93GTqyB+i5YP9qIrOdq2AfdCtRcw/3wWAvYd8QXqIFg8RwMzxOiTqp07aSKJzdwGtdmxTUJCpZakgtRxQFZaG+otaKZfhyNSu/v0/bDZQyWNwZTA2adxXVCojgxc7jt/Y/QLQ==",
+      "AWS_SECRET_ACCESS_KEY": "AgCa8FVgpTd11UXxjpEqS6KC2+UGQkf42S713+0cvsoAEzoQh/6SD5edv68sZ/LdBIWUURM05QMhx6IFG+qYA6Mf83XDiqwLm6uA8Kk3Tobawe6Q9fwa/21YMaTeCKZFqjVIonxDNMPgLGuB+78eUlOt4onZLwyoV9qvNmQfBe7Ebc5cYW9+QILjXeqCahkAe7MQIYll2ERxhHyAsKcNqoKrQimMi0MKHMZ7SySmouZi6a6KtXdJTkD/NtjvXG6jDs5EB46tiDyXs8lXY+JSbtsCYwqNM+h9kHlkV3uSrpnKj/VAwdElSKoSg6FbmllkgZ+iJnusO/Hxez/s+9OZ/rL42jGAOR6O/1gOww6poheLXmoM6MdG+cSD35BnCONoD9G7iR0VCJdbTN6OkL86W/hyp0rMMs6hKQK5CaS+O7PSBWmUXWDVUK3XpLeZ6kKORehEK7fKZAJHtw8TyLWdJ+ECd6l8QnJnIR1MBsdg7MeltYPNOmp/EYxxzS4/Wdhdp9epCv6ks2IQ9DHmPXrRHDqOnCd0LVA/n21QcuOZOz/XV59iUJLilLtPFHZ4dTBYGUXC8nIbUpMYEUOBtiX6k61fPNARdH72g/f5vPD23JFW1IUCYM+bGqkFAMHntHuRrmLM0LOz90V9e1efSeXNUOfTXBs0UJptxo/e8lxWsj2dezcNHSNLjQDtfP2l6UumeaE+kVLE4LW6KX8foXH6FZT5k3/VNTEubshMrkE0ofJ/xg2mEYAQSDfb",
+      "AWS_SESSION_TOKEN": "AgCYCe0H9dnmxeS4oEWs/MMmKn1j9LhA6bfv0XN2YcIH9InZiCao7s+P/81F1ah66PakdYRFVrKp5WqdkIh9UdhRWkECxH6d6kjDE9TSVthO42y0L1yCNhiaK2Ic8kxEzYwwHXfZqAkNOFy3AGhFvs0z0CxfEEy8ktaT5ZyZbWiBeqr26P81fx3mU8g3v2YeVGp+56QrowAAu5IrFba78Q5OieZi+ybKOBStV9SQFVdlMTiwLQ9tadgCygeFvgqWOHXKTykIgZxP0QRCl3PXZw5nZurwl4VJNPvcWWaw3VRaLtw7Y2hvMg5+f/xxMRblF3pT54bsFCunj3gDQF7xaOhacJDKKfm+INdPGBTmAL1UC6ZT/Lm/lTPTK3bOnmv164SgVc7NNZ6/6o5zS4BArH630pWujSCF6ZoQJwfwRQ18xzZAB+xaXrlcyxqzGnaBqONN4j3Te3bqQjRMTwREdxWHKBKDu56R4Y4LQTNqOXKB0lUByPI9Q0Etmi+OuWy4P0O/1FyXwclsbKZ23BEmTkDeY60dB7mkrjGaMQE4rnuJUs/msNLa+sDDhpQskKVayvYAIDg13lttH7a1Cwy7+/+i8MjXdvm5Azo7itODYE4UmBMGRJAn0T7VvW4PUylQOmA4uqY5J8x1xM7oXyBpWo4m6S8BaDYsc3rrFnXVKgebMzHh1HvferGTns73AeWLaetgdw==",
+      "aws-account": "AgCQ3oPEkzvmTEb/W2FrgNY+6xe9YOhbiCEM30089M4qn/f1ajmgmIpPD31MXCl6eY+wqmtN1xZWriIRolCjv/EfE5at6E5Ol55Of/3brYP/uZ6Ru2b+vGAqbOqa+jXGpBbhcuvXrJOe7o90Z91a1jOs2hoyDw1fkbWEKyQoKDXHdBnLjeuUewBtAKmh5HsIWgAFvYyS+zIihWkqWXEiTZcQyP/gitvYlAluJ+CvVhqE59cwgDHzJlRmmNaehHoMHkx+oEMeVykTmE2rDLrtGaIfD0EBbvB3cX0H2OWfx+6E558TJ50+K/tNfCK+hNkYmrhXpC/XCCemIRYQtosJcVpHnTnRQZMjivyrjI4LNgQ6+yRW8VwuY470WHnofKtwUvYqXn1VIr6AZtuepxnRhon2e/cIrr18zYov/4pavfTjYYNeJhT+zKwDhDzvgCVcFl5sLDg6NWENt5dpT7eR/lJF5kETJxAIqeANwwvGXBf5gieQrsx5E9L9Og/RHJQ0r8uLvDAA3bZB6KnyYyDvs20mcrHkBBJ4kp8lQe0RSL28VVgquGaGNQGL3roMwei6UKAexvIpGcGDL4zyW0e2tGLMAwvohgsiYgBguOj9mAyLpdeB8YwOiI+qBlR0+4jgYy6V/0GSRqOicOFtucwYyqChTPO1GGD167dhKYbOZga+sSHi4onEu3qiClSqEDsqgAwpTTdgMuQm8g1C1AfWewx71FBOKKIk",
+      "aws-region": "AgA9qIt8uUU7CWNPy3rNuVFs0JqNwn2TduvBSBZDsRPmErWM5j7rZdfeFw5e4tek9ySUSGRMBgu9bHjUjzgyFZX/nGTPryUdBDbEd3Bf9KyNhXjuknKh+/W0V2slKvWpNEW4K7D2MstGa3xecuHAHy5pQ4cPfu2QCmGCiaPpSvWUSxGUU9+U9rBCqaJ3YGNCIpUyK18qcr9N8rJ6KsL40P1+cYUHNHDJa4KetyY9Hf/jONFBwbUOKckuzh1QDXfUIaPmFErmwnKIpOwGsPqb68g+SauWm12aX7kllHrnQVzjwEkElx9XGoDUVYrg/LYmzA1H5VkchH9UlrJ2wTyhiJvaE/IL+2kPsOYml9+HhNqhVqnf5eeRlGAcDOLgFX1yKrWBKRs63OoSGHKknaKNpDCdvivpwXajcvc41VxFVl3HWVSH/iaSNfsLR4X9X1V66uPtat25nAx9oZ9TGHwQQ1tv7LdCHVAfAZA95gHPF7VY1EplqvrXjQIbo9dUaHVmEB+GMCtJ02uGj0klQCZ86mtFU2l8D5c34K5hh7+1PbPBigmSzJpx83GbYPuADE7Nu7YNic50ypM+x44AxX08jD17WwfT6B3v+vjaK9KecaAfBY+OH63Xjwt3HMZ6b5MIJRQQv5hmSvNv8twgUkIOyKvZvDzA/6bUU+VZMQNwTYywJfAMeZODB+LTwLVTFu6YUpsGnk52YvmoW2vr"
+    }
+  }
+}
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl apply -f sealedSecret.yml
+sealedsecret.bitnami.com/awsecr-cred created
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl apply -f sealedSecret.yml -n kube-system
+error: the namespace from the provided object "default" does not match the namespace "kube-system". You must pass '--namespace=default' to perform this operation.
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ helm install registry-creds https://hub.docker.com/r/upmcenterprises/registry-creds/
+Error: INSTALLATION FAILED: file '/home/spintly/.cache/helm/repository/registry-creds' does not appear to be a gzipped archive; got 'text/html; charset=utf-8'
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ docker pull upmcenterprises/registry-creds
+Using default tag: latest
+Error response from daemon: manifest for upmcenterprises/registry-creds:latest not found: manifest unknown: manifest unknown
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl apply -f deployment.yaml 
+deployment.apps/registry-creds created
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get secrets -n kube-system
+NAME                                             TYPE                                  DATA   AGE
+attachdetach-controller-token-ff54w              kubernetes.io/service-account-token   3      25h
+bootstrap-signer-token-7t68v                     kubernetes.io/service-account-token   3      25h
+calico-kube-controllers-token-h9mt9              kubernetes.io/service-account-token   3      24h
+canal-token-ddpz2                                kubernetes.io/service-account-token   3      24h
+certificate-controller-token-m8b5b               kubernetes.io/service-account-token   3      25h
+clusterrole-aggregation-controller-token-d78b9   kubernetes.io/service-account-token   3      25h
+coredns-token-pvsdc                              kubernetes.io/service-account-token   3      25h
+cronjob-controller-token-nsz9s                   kubernetes.io/service-account-token   3      25h
+daemon-set-controller-token-gg2gj                kubernetes.io/service-account-token   3      25h
+default-token-cfdc5                              kubernetes.io/service-account-token   3      25h
+deployment-controller-token-tmggg                kubernetes.io/service-account-token   3      25h
+disruption-controller-token-b8cbr                kubernetes.io/service-account-token   3      25h
+endpoint-controller-token-248n9                  kubernetes.io/service-account-token   3      25h
+endpointslice-controller-token-ptnq9             kubernetes.io/service-account-token   3      25h
+endpointslicemirroring-controller-token-p4j4k    kubernetes.io/service-account-token   3      25h
+ephemeral-volume-controller-token-dmm9t          kubernetes.io/service-account-token   3      25h
+expand-controller-token-bs7nc                    kubernetes.io/service-account-token   3      25h
+generic-garbage-collector-token-q5rvs            kubernetes.io/service-account-token   3      25h
+horizontal-pod-autoscaler-token-2mgq4            kubernetes.io/service-account-token   3      25h
+job-controller-token-w8nqg                       kubernetes.io/service-account-token   3      25h
+kube-proxy-token-grqqm                           kubernetes.io/service-account-token   3      25h
+namespace-controller-token-tdfzs                 kubernetes.io/service-account-token   3      25h
+node-controller-token-mslqc                      kubernetes.io/service-account-token   3      25h
+persistent-volume-binder-token-7nw6s             kubernetes.io/service-account-token   3      25h
+pod-garbage-collector-token-rr5qm                kubernetes.io/service-account-token   3      25h
+pv-protection-controller-token-lgm4v             kubernetes.io/service-account-token   3      25h
+pvc-protection-controller-token-5tcgt            kubernetes.io/service-account-token   3      25h
+replicaset-controller-token-85gfw                kubernetes.io/service-account-token   3      25h
+replication-controller-token-g2766               kubernetes.io/service-account-token   3      25h
+resourcequota-controller-token-84rdr             kubernetes.io/service-account-token   3      25h
+root-ca-cert-publisher-token-9stpf               kubernetes.io/service-account-token   3      25h
+service-account-controller-token-jdfq7           kubernetes.io/service-account-token   3      25h
+service-controller-token-lg6w8                   kubernetes.io/service-account-token   3      25h
+statefulset-controller-token-8m5mn               kubernetes.io/service-account-token   3      25h
+token-cleaner-token-dbrh9                        kubernetes.io/service-account-token   3      25h
+ttl-after-finished-controller-token-4k5m6        kubernetes.io/service-account-token   3      25h
+ttl-controller-token-cv4p5                       kubernetes.io/service-account-token   3      25h
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get secrets
+NAME                                   TYPE                                  DATA   AGE
+awsecr-cred                            Opaque                                5      83m
+default-token-4tf75                    kubernetes.io/service-account-token   3      25h
+ping-server                            Opaque                                3      23h
+sealed-secrets-key2zhrj                kubernetes.io/tls                     2      23h
+sealed-secrets-token-n4kqg             kubernetes.io/service-account-token   3      23h
+sh.helm.release.v1.sealed-secrets.v1   helm.sh/release.v1                    1      23h
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ helm install sealed-secrets-controller sealed-secrets/sealed-secrets -n kube-system
+Error: INSTALLATION FAILED: rendered manifests contain a resource that already exists. Unable to continue with install: ClusterRole "secrets-unsealer" in namespace "" exists and cannot be imported into the current release: invalid ownership metadata; annotation validation error: key "meta.helm.sh/release-name" must equal "sealed-secrets-controller": current value is "sealed-secrets"; annotation validation error: key "meta.helm.sh/release-namespace" must equal "kube-system": current value is "default"
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ helm list
+NAME          	NAMESPACE	REVISION	UPDATED                               	STATUS  	CHART               	APP VERSION
+sealed-secrets	default  	1       	2022-02-22 18:29:00.35419226 +0530 IST	deployed	sealed-secrets-2.1.3	v0.17.3    
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ helm uninstall sealed-secrets
+release "sealed-secrets" uninstalled
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ helm install sealed-secrets-controller sealed-secrets/sealed-secrets -n kube-system
+NAME: sealed-secrets-controller
+LAST DEPLOYED: Wed Feb 23 17:49:28 2022
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+** Please be patient while the chart is being deployed **
+
+You should now be able to create sealed secrets.
+
+1. Install the client-side tool (kubeseal) as explained in the docs below:
+
+    https://github.com/bitnami-labs/sealed-secrets#installation-from-source
+
+2. Create a sealed secret file running the command below:
+
+    kubectl create secret generic secret-name --dry-run=client --from-literal=foo=bar -o [json|yaml] | \
+    kubeseal \
+      --controller-name=sealed-secrets-controller \
+      --controller-namespace=kube-system \
+      --format yaml > mysealedsecret.[json|yaml]
+
+The file mysealedsecret.[json|yaml] is a commitable file.
+
+If you would rather not need access to the cluster to generate the sealed secret you can run:
+
+    kubeseal \
+      --controller-name=sealed-secrets-controller \
+      --controller-namespace=kube-system \
+      --fetch-cert > mycert.pem
+
+to retrieve the public cert used for encryption and store it locally. You can then run 'kubeseal --cert mycert.pem' instead to use the local cert e.g.
+
+    kubectl create secret generic secret-name --dry-run=client --from-literal=foo=bar -o [json|yaml] | \
+    kubeseal \
+      --controller-name=sealed-secrets-controller \
+      --controller-namespace=kube-system \
+      --format [json|yaml] --cert mycert.pem > mysealedsecret.[json|yaml]
+
+3. Apply the sealed secret
+
+    kubectl create -f mysealedsecret.[json|yaml]
+
+Running 'kubectl get secret secret-name -o [json|yaml]' will show the decrypted secret that was generated from the sealed secret.
+
+Both the SealedSecret and generated Secret must have the same name and namespace.
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubeseal --fetch-cert > publicKey.pem
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl create secret -n kube-system generic awsecr-creds --dry-run=client --from-env-file=.env -o yaml | kubeseal --cert publicKey.pem > sealedSecret.yml
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get secrets -n kube-system
+NAME                                              TYPE                                  DATA   AGE
+attachdetach-controller-token-ff54w               kubernetes.io/service-account-token   3      25h
+bootstrap-signer-token-7t68v                      kubernetes.io/service-account-token   3      25h
+calico-kube-controllers-token-h9mt9               kubernetes.io/service-account-token   3      24h
+canal-token-ddpz2                                 kubernetes.io/service-account-token   3      24h
+certificate-controller-token-m8b5b                kubernetes.io/service-account-token   3      25h
+clusterrole-aggregation-controller-token-d78b9    kubernetes.io/service-account-token   3      25h
+coredns-token-pvsdc                               kubernetes.io/service-account-token   3      25h
+cronjob-controller-token-nsz9s                    kubernetes.io/service-account-token   3      25h
+daemon-set-controller-token-gg2gj                 kubernetes.io/service-account-token   3      25h
+default-token-cfdc5                               kubernetes.io/service-account-token   3      25h
+deployment-controller-token-tmggg                 kubernetes.io/service-account-token   3      25h
+disruption-controller-token-b8cbr                 kubernetes.io/service-account-token   3      25h
+endpoint-controller-token-248n9                   kubernetes.io/service-account-token   3      25h
+endpointslice-controller-token-ptnq9              kubernetes.io/service-account-token   3      25h
+endpointslicemirroring-controller-token-p4j4k     kubernetes.io/service-account-token   3      25h
+ephemeral-volume-controller-token-dmm9t           kubernetes.io/service-account-token   3      25h
+expand-controller-token-bs7nc                     kubernetes.io/service-account-token   3      25h
+generic-garbage-collector-token-q5rvs             kubernetes.io/service-account-token   3      25h
+horizontal-pod-autoscaler-token-2mgq4             kubernetes.io/service-account-token   3      25h
+job-controller-token-w8nqg                        kubernetes.io/service-account-token   3      25h
+kube-proxy-token-grqqm                            kubernetes.io/service-account-token   3      25h
+namespace-controller-token-tdfzs                  kubernetes.io/service-account-token   3      25h
+node-controller-token-mslqc                       kubernetes.io/service-account-token   3      25h
+persistent-volume-binder-token-7nw6s              kubernetes.io/service-account-token   3      25h
+pod-garbage-collector-token-rr5qm                 kubernetes.io/service-account-token   3      25h
+pv-protection-controller-token-lgm4v              kubernetes.io/service-account-token   3      25h
+pvc-protection-controller-token-5tcgt             kubernetes.io/service-account-token   3      25h
+replicaset-controller-token-85gfw                 kubernetes.io/service-account-token   3      25h
+replication-controller-token-g2766                kubernetes.io/service-account-token   3      25h
+resourcequota-controller-token-84rdr              kubernetes.io/service-account-token   3      25h
+root-ca-cert-publisher-token-9stpf                kubernetes.io/service-account-token   3      25h
+sealed-secrets-controller-token-5rrrx             kubernetes.io/service-account-token   3      5m8s
+sealed-secrets-keydb7ck                           kubernetes.io/tls                     2      4m59s
+service-account-controller-token-jdfq7            kubernetes.io/service-account-token   3      25h
+service-controller-token-lg6w8                    kubernetes.io/service-account-token   3      25h
+sh.helm.release.v1.sealed-secrets-controller.v1   helm.sh/release.v1                    1      5m8s
+statefulset-controller-token-8m5mn                kubernetes.io/service-account-token   3      25h
+token-cleaner-token-dbrh9                         kubernetes.io/service-account-token   3      25h
+ttl-after-finished-controller-token-4k5m6         kubernetes.io/service-account-token   3      25h
+ttl-controller-token-cv4p5                        kubernetes.io/service-account-token   3      25h
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl apply -f sealedSecret.yml
+sealedsecret.bitnami.com/awsecr-creds created
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get secrets -n kube-system
+NAME                                              TYPE                                  DATA   AGE
+attachdetach-controller-token-ff54w               kubernetes.io/service-account-token   3      25h
+awsecr-creds                                      Opaque                                5      8s
+bootstrap-signer-token-7t68v                      kubernetes.io/service-account-token   3      25h
+calico-kube-controllers-token-h9mt9               kubernetes.io/service-account-token   3      24h
+canal-token-ddpz2                                 kubernetes.io/service-account-token   3      24h
+certificate-controller-token-m8b5b                kubernetes.io/service-account-token   3      25h
+clusterrole-aggregation-controller-token-d78b9    kubernetes.io/service-account-token   3      25h
+coredns-token-pvsdc                               kubernetes.io/service-account-token   3      25h
+cronjob-controller-token-nsz9s                    kubernetes.io/service-account-token   3      25h
+daemon-set-controller-token-gg2gj                 kubernetes.io/service-account-token   3      25h
+default-token-cfdc5                               kubernetes.io/service-account-token   3      25h
+deployment-controller-token-tmggg                 kubernetes.io/service-account-token   3      25h
+disruption-controller-token-b8cbr                 kubernetes.io/service-account-token   3      25h
+endpoint-controller-token-248n9                   kubernetes.io/service-account-token   3      25h
+endpointslice-controller-token-ptnq9              kubernetes.io/service-account-token   3      25h
+endpointslicemirroring-controller-token-p4j4k     kubernetes.io/service-account-token   3      25h
+ephemeral-volume-controller-token-dmm9t           kubernetes.io/service-account-token   3      25h
+expand-controller-token-bs7nc                     kubernetes.io/service-account-token   3      25h
+generic-garbage-collector-token-q5rvs             kubernetes.io/service-account-token   3      25h
+horizontal-pod-autoscaler-token-2mgq4             kubernetes.io/service-account-token   3      25h
+job-controller-token-w8nqg                        kubernetes.io/service-account-token   3      25h
+kube-proxy-token-grqqm                            kubernetes.io/service-account-token   3      25h
+namespace-controller-token-tdfzs                  kubernetes.io/service-account-token   3      25h
+node-controller-token-mslqc                       kubernetes.io/service-account-token   3      25h
+persistent-volume-binder-token-7nw6s              kubernetes.io/service-account-token   3      25h
+pod-garbage-collector-token-rr5qm                 kubernetes.io/service-account-token   3      25h
+pv-protection-controller-token-lgm4v              kubernetes.io/service-account-token   3      25h
+pvc-protection-controller-token-5tcgt             kubernetes.io/service-account-token   3      25h
+replicaset-controller-token-85gfw                 kubernetes.io/service-account-token   3      25h
+replication-controller-token-g2766                kubernetes.io/service-account-token   3      25h
+resourcequota-controller-token-84rdr              kubernetes.io/service-account-token   3      25h
+root-ca-cert-publisher-token-9stpf                kubernetes.io/service-account-token   3      25h
+sealed-secrets-controller-token-5rrrx             kubernetes.io/service-account-token   3      5m32s
+sealed-secrets-keydb7ck                           kubernetes.io/tls                     2      5m23s
+service-account-controller-token-jdfq7            kubernetes.io/service-account-token   3      25h
+service-controller-token-lg6w8                    kubernetes.io/service-account-token   3      25h
+sh.helm.release.v1.sealed-secrets-controller.v1   helm.sh/release.v1                    1      5m32s
+statefulset-controller-token-8m5mn                kubernetes.io/service-account-token   3      25h
+token-cleaner-token-dbrh9                         kubernetes.io/service-account-token   3      25h
+ttl-after-finished-controller-token-4k5m6         kubernetes.io/service-account-token   3      25h
+ttl-controller-token-cv4p5                        kubernetes.io/service-account-token   3      25h
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl describe secret awsecr-cred -n kube-system
+Name:         awsecr-creds
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+AWS_ACCESS_KEY_ID:      20 bytes
+AWS_SECRET_ACCESS_KEY:  40 bytes
+AWS_SESSION_TOKEN:      2 bytes
+aws-account:            22 bytes
+aws-region:             10 bytes
+
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get deploy -n kube-system
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+calico-kube-controllers     1/1     1            1           24h
+coredns                     2/2     2            2           25h
+registry-creds              0/1     1            0           9m8s
+sealed-secrets-controller   1/1     1            1           6m48s
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get events -n kube-system registry-creds
+Error from server (NotFound): events "registry-creds" not found
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get events -n kube-system
+LAST SEEN   TYPE      REASON              OBJECT                                            MESSAGE
+106s        Normal    Unsealed            sealedsecret/awsecr-creds                         SealedSecret unsealed successfully
+50m         Warning   Unhealthy           pod/calico-kube-controllers-566dc76669-wtswk      Readiness probe failed: command "/usr/bin/check-status -r" timed out
+9m29s       Normal    Scheduled           pod/registry-creds-98d4fc7bb-6dl2z                Successfully assigned kube-system/registry-creds-98d4fc7bb-6dl2z to spintly-poweredge-t40
+4m26s       Normal    Pulling             pod/registry-creds-98d4fc7bb-6dl2z                Pulling image "upmcenterprises/registry-creds:1.10"
+9m16s       Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 10.423195649s
+7m30s       Warning   Failed              pod/registry-creds-98d4fc7bb-6dl2z                Error: secret "registry-creds-ecr" not found
+9m12s       Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.738319306s
+8m54s       Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.684206116s
+8m37s       Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.588993023s
+8m22s       Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.72429086s
+8m6s        Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.642513759s
+7m48s       Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.555566194s
+7m30s       Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.710021995s
+9m30s       Normal    SuccessfulCreate    replicaset/registry-creds-98d4fc7bb               Created pod: registry-creds-98d4fc7bb-6dl2z
+9m30s       Normal    ScalingReplicaSet   deployment/registry-creds                         Scaled up replica set registry-creds-98d4fc7bb to 1
+9m30s       Normal    InjectionSkipped    deployment/registry-creds                         Linkerd sidecar proxy injection skipped: neither the namespace nor the pod have the annotation "linkerd.io/inject:enabled"
+7m9s        Normal    Scheduled           pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Successfully assigned kube-system/sealed-secrets-controller-5c9f5b7db4-gb6mb to spintly-poweredge-t40
+7m6s        Normal    Pulled              pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Container image "quay.io/bitnami/sealed-secrets-controller:v0.17.3" already present on machine
+7m3s        Normal    Created             pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Created container controller
+7m2s        Normal    Started             pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Started container controller
+7m9s        Normal    SuccessfulCreate    replicaset/sealed-secrets-controller-5c9f5b7db4   Created pod: sealed-secrets-controller-5c9f5b7db4-gb6mb
+7m9s        Normal    ScalingReplicaSet   deployment/sealed-secrets-controller              Scaled up replica set sealed-secrets-controller-5c9f5b7db4 to 1
+7m9s        Normal    InjectionSkipped    deployment/sealed-secrets-controller              Linkerd sidecar proxy injection skipped: neither the namespace nor the pod have the annotation "linkerd.io/inject:enabled"
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl delete -f sealedSecret.yml 
+sealedsecret.bitnami.com "awsecr-creds" deleted
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl create secret -n kube-system generic registry-creds-ecr --dry-run=client --from-env-file=.env -o yaml | kubeseal --cert publicKey.pem > sealedSecret.yml
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl apply -f sealedSecret.yml 
+sealedsecret.bitnami.com/registry-creds-ecr created
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl delete -f deployment.yaml 
+deployment.apps "registry-creds" deleted
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl apply -f deployment.yaml 
+deployment.apps/registry-creds created
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get events -n kube-system
+LAST SEEN   TYPE      REASON              OBJECT                                            MESSAGE
+8m8s        Normal    Unsealed            sealedsecret/awsecr-creds                         SealedSecret unsealed successfully
+57m         Warning   Unhealthy           pod/calico-kube-controllers-566dc76669-wtswk      Readiness probe failed: command "/usr/bin/check-status -r" timed out
+21s         Warning   Unhealthy           pod/kube-apiserver-spintly-poweredge-t40          Readiness probe failed: HTTP probe failed with statuscode: 500
+15m         Normal    Scheduled           pod/registry-creds-98d4fc7bb-6dl2z                Successfully assigned kube-system/registry-creds-98d4fc7bb-6dl2z to spintly-poweredge-t40
+5m43s       Normal    Pulling             pod/registry-creds-98d4fc7bb-6dl2z                Pulling image "upmcenterprises/registry-creds:1.10"
+15m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 10.423195649s
+13m         Warning   Failed              pod/registry-creds-98d4fc7bb-6dl2z                Error: secret "registry-creds-ecr" not found
+15m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.738319306s
+15m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.684206116s
+14m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.588993023s
+14m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.72429086s
+14m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.642513759s
+14m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.555566194s
+13m         Normal    Pulled              pod/registry-creds-98d4fc7bb-6dl2z                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 3.710021995s
+49s         Normal    Killing             pod/registry-creds-98d4fc7bb-6dl2z                Stopping container registry-creds
+42s         Normal    Scheduled           pod/registry-creds-98d4fc7bb-xhdx4                Successfully assigned kube-system/registry-creds-98d4fc7bb-xhdx4 to spintly-poweredge-t40
+38s         Normal    Pulling             pod/registry-creds-98d4fc7bb-xhdx4                Pulling image "upmcenterprises/registry-creds:1.10"
+34s         Normal    Pulled              pod/registry-creds-98d4fc7bb-xhdx4                Successfully pulled image "upmcenterprises/registry-creds:1.10" in 4.052695409s
+28s         Normal    Created             pod/registry-creds-98d4fc7bb-xhdx4                Created container registry-creds
+22s         Normal    Started             pod/registry-creds-98d4fc7bb-xhdx4                Started container registry-creds
+15m         Normal    SuccessfulCreate    replicaset/registry-creds-98d4fc7bb               Created pod: registry-creds-98d4fc7bb-6dl2z
+43s         Normal    SuccessfulCreate    replicaset/registry-creds-98d4fc7bb               Created pod: registry-creds-98d4fc7bb-xhdx4
+67s         Normal    Unsealed            sealedsecret/registry-creds-ecr                   SealedSecret unsealed successfully
+15m         Normal    ScalingReplicaSet   deployment/registry-creds                         Scaled up replica set registry-creds-98d4fc7bb to 1
+15m         Normal    InjectionSkipped    deployment/registry-creds                         Linkerd sidecar proxy injection skipped: neither the namespace nor the pod have the annotation "linkerd.io/inject:enabled"
+43s         Normal    ScalingReplicaSet   deployment/registry-creds                         Scaled up replica set registry-creds-98d4fc7bb to 1
+43s         Normal    InjectionSkipped    deployment/registry-creds                         Linkerd sidecar proxy injection skipped: neither the namespace nor the pod have the annotation "linkerd.io/inject:enabled"
+13m         Normal    Scheduled           pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Successfully assigned kube-system/sealed-secrets-controller-5c9f5b7db4-gb6mb to spintly-poweredge-t40
+13m         Normal    Pulled              pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Container image "quay.io/bitnami/sealed-secrets-controller:v0.17.3" already present on machine
+13m         Normal    Created             pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Created container controller
+13m         Normal    Started             pod/sealed-secrets-controller-5c9f5b7db4-gb6mb    Started container controller
+13m         Normal    SuccessfulCreate    replicaset/sealed-secrets-controller-5c9f5b7db4   Created pod: sealed-secrets-controller-5c9f5b7db4-gb6mb
+13m         Normal    ScalingReplicaSet   deployment/sealed-secrets-controller              Scaled up replica set sealed-secrets-controller-5c9f5b7db4 to 1
+13m         Normal    InjectionSkipped    deployment/sealed-secrets-controller              Linkerd sidecar proxy injection skipped: neither the namespace nor the pod have the annotation "linkerd.io/inject:enabled"
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ kubectl get deploy -n kube-system
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+calico-kube-controllers     1/1     1            1           24h
+coredns                     2/2     2            2           25h
+registry-creds              1/1     1            1           101s
+sealed-secrets-controller   1/1     1            1           14m
+spintly@spintly-PowerEdge-T40:~/on-prem-k8s-documentation/awsecr-cred$ 
