@@ -267,6 +267,27 @@ https://helm.sh/docs/topics/charts/
 
 ## Working with Helm templates to create the Helm chart
 
+## Installing Kafka
+
+> NOTE: Check [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-apache-kafka-on-ubuntu-20-04) for installing Kafka to Linux.
+
+Make sure you have Java JRE 11 for this version of Kafka.
+```bash
+sudo apt update
+sudo apt install openjdk-11-jre-headless -y
+java --version
+```
+
+Download the latest executables from [the official Kafka website](https://kafka.apache.org/downloads).
+```bash
+wget https://dlcdn.apache.org/kafka/3.1.0/kafka_2.12-3.1.0.tgz
+
+```
+
+## Testing the Kafka cluster install
+
+> NOTE: Check [this detailed documentation from the official Kafka documentation](https://kafka.apache.org/31/documentation/streams/quickstart) about testing the Kafka install.
+
 ## References
 
 1. [k3s normal install](https://k3s.io/)
