@@ -8,6 +8,8 @@ Please check the [latest documentation for installing `k3s` and `docker`](https:
 
 ## Installing docker
 
+> NOTE: Follow [this guide about Docker Engine](https://docs.docker.com/engine/install/ubuntu/) for the latest install instructions of Docker. Also check [this guide](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd) about container runtimes.
+
 The current setup at Spintly uses `docker` for containerization.
 
 ```bash
