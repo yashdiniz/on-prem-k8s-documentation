@@ -114,9 +114,9 @@ helm repo update
 
 sudo k3s kubectl cluster-info   # to know the cluster server info
 
-sudo kubectl -n kube-system create serviceaccount tiller
-sudo kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-sudo helm init --service-account tiller
+kubectl -n kube-system create serviceaccount tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy -n kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 ```
 
 ## Installing Golang
@@ -159,7 +159,7 @@ Using helm to install Sealed Secrets as follows:
 
 ```bash
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
-helm install sealed-secrets sealed-secrets/sealed-secrets
+helm install sealed-secrets-controller sealed-secrets/sealed-secrets
 ```
 
 Then we use `kubeseal` to fetch the Public Key that we will use to encrypt the secrets, as follows:
@@ -244,6 +244,9 @@ kubectl create -f sealedsecret.yaml
 
 Installing `registry-creds` can be done as follows:
 ```bash
+# Give the default kube-system service account admin privileges so that registry-creds can write secrets...
+kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=kube-system:default
+
 docker pull upmcenterprises/registry-creds
 kubectl apply -f awsecr-cred/deployment.yaml
 ```
