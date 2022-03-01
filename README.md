@@ -251,6 +251,33 @@ docker pull upmcenterprises/registry-creds
 kubectl apply -f awsecr-cred/deployment.yaml
 ```
 
+### Configuring ImagePullSecrets, with and without registry-creds
+
+This subsection will help you use the `ImagePullSecrets` created by `registry-creds` for authorizing with AWS ECR.
+
+Begin by adding `ImagePullSecrets` to your `k8s-deployment.yml`.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+# ...
+spec:
+    # ...
+    spec:
+      imagePullSecrets:
+      - name: awsecr-cred   # awsecr-cred is the name of the ImagePullSecrets that will be used by us.
+      # ...
+```
+
+If `registry-creds` fails for any reason, you can use the commands below to get `.dockerconfigjson`, which contains the secrets required to build the image.
+```bash
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 399029391937.dkr.ecr.ap-south-1.amazonaws.com
+kubectl delete secret awsecr-cred
+kubectl create secret generic awsecr-cred --from-file=.dockerconfigjson=/home/spintly/.docker/config.json --type=kubernetes.io/dockerconfigjson
+```
+
+If `registry-creds` works, then `.dockerconfigjson` will be automatically configured, but you will still need to add `ImagePullSecrets` to your `k8s-deployment.yml`.
+
 ## Start with Helm
 
 > NOTE: There will already be an existing helm package created by us, which can be asked for. This part of the documentation is a step-by-step if you plan on creating a new helm chart from scratch.
